@@ -1,23 +1,32 @@
 <p align="center">
-  <img src="assets/icon.svg" width="88" alt="Axiom Forge" />
-</p>
-<h1 align="center">Axiom Forge</h1>
-<p align="center"><strong>Scientific reasoning. Verified engineering.</strong></p>
-<p align="center">
-  <a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a>
+  <img src="assets/readme-cover.svg" width="960" alt="Axiom Forge — research and engineering skills" />
 </p>
 
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-FFAD47.svg?style=flat-square" alt="License: MIT" /></a>
-</p>
+# Axiom Forge
 
----
+**Research and engineering skills for the agent you already use.**
 
-A research and engineering toolkit for **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi**.
+<p align="center"><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a></p>
 
-**65 skills** — Pstack workflows, five research skills, a research coordinator, and RSI as a reasoning framework.
+Axiom Forge brings **65 skills** into **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi**. Use them to work through a research question, review evidence, or plan and check a code change.
 
-## Install
+## What are you working on?
+
+### A research question
+
+Start with [research-suite](skills/research-suite/SKILL.md). It selects workflows for literature searches, hypothesis design, statistics and evidence critique.
+
+> Use Axiom Forge to investigate this question. Start with research-suite and select the skills the problem needs.
+
+### A code change
+
+Start with [poteto-mode](skills/poteto-mode/SKILL.md). It routes engineering work through Pstack planning, implementation, review and verification.
+
+> Use poteto-mode to investigate this bug. Read the relevant code, reproduce the failure, and explain how you will check the fix.
+
+Pick the skills the task needs. You do not need to load all 65.
+
+## Install for your host
 
 Requires **Python 3.10+**. Codex and Claude Code also need their own CLI.
 
@@ -45,16 +54,15 @@ Choose your host by replacing `codex`:
 
 **Update:** repeat the same command with `-Update` on Windows or `--update` on macOS/Linux. Restart or reload the host afterward.
 
-Existing same-name skills and local edits are preserved: installation stops on conflicts. Personal instructions, model settings and API keys stay untouched.
+These commands download and run an installer from `main`. Read [the shell installer](install.sh), [the PowerShell installer](install.ps1) and [the Python adapter](scripts/install.py) before running them.
 
-## Start here
+## Before you rely on it
 
-- **Research → [research-suite](skills/research-suite/SKILL.md)** — Frame questions, find literature, assess evidence, design hypotheses and analyze data.
-- **Engineering → [poteto-mode](skills/poteto-mode/SKILL.md)** — Plan, implement, review and verify the work using Pstack.
+- **Skills are instructions and supporting scripts.** Installation does not bundle a Python environment, third-party MCP servers, model weights or credentials. RSI is included as a research method, not a deployed model or runtime.
 
-> Use Axiom Forge to investigate this question. Start with research-suite and select the skills the problem needs.
+- **Host support has different levels of verification.** Antigravity and Pi have installer tests, but no model-session verification. Files landing in the right directory does not establish scientific quality. See [the full compatibility table](docs/compatibility.md).
 
-Skills are selected as needed. RSI supplies an iterative research method; no models or runtimes are deployed by installation.
+- **Directory installs stop on same-name conflicts or modified owned content.** Codex and Claude Code use their native plugin managers, which manage their own caches. Personal instructions, model settings and API keys are not edited. Pi uses a shared skills directory that other applications may also discover.
 
 ## Inside the repository
 
@@ -71,3 +79,4 @@ licenses/           Upstream copyright and MIT notices
 ---
 
 **[MIT License](LICENSE).** Built on Pstack by Lauren Tan, codex-research by LIU-31415 and scientific skills by K-Dense. An independent integration; see [credits and licenses](licenses/README.md).
+

@@ -1,23 +1,32 @@
 <p align="center">
-  <img src="assets/icon.svg" width="88" alt="Axiom Forge" />
-</p>
-<h1 align="center">Axiom Forge</h1>
-<p align="center"><strong>科研推理，工程驗證。</strong></p>
-<p align="center">
-  <a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a>
+  <img src="assets/readme-cover.svg" width="960" alt="Axiom Forge — research and engineering skills" />
 </p>
 
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-FFAD47.svg?style=flat-square" alt="License: MIT" /></a>
-</p>
+# Axiom Forge
 
----
+**把研究與工程工作交給你正在使用的 agent。**
 
-為 **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi** 整合的科研與工程工具箱。
+<p align="center"><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a></p>
 
-**65 個 skills** — Pstack 工作流、五個科研技能、統一研究入口，以及 RSI 推理方法。
+Axiom Forge 為 **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi** 整合 **65 個 skills**。你可以用它拆解研究問題、核對證據，或規劃與檢查程式修改。
 
-## 安裝
+## 你現在要做什麼？
+
+### 研究一個問題
+
+從 [research-suite](skills/research-suite/SKILL.md) 開始，按問題選用文獻檢索、假說設計、統計分析與證據評估技能。
+
+> 使用 Axiom Forge 研究這個問題，從 research-suite 開始，選用問題需要的技能。
+
+### 修改一段程式
+
+從 [poteto-mode](skills/poteto-mode/SKILL.md) 開始，透過 Pstack 規劃、實作、審查與驗證。
+
+> 使用 poteto-mode 調查這個 bug。先讀相關程式、重現失敗，再說明要如何驗證修正。
+
+需要哪個技能，再讀哪個。不必一次載入全部 65 個。
+
+## 選擇你的使用環境
 
 需要 **Python 3.10+**；Codex、Claude Code 另需各自 CLI。
 
@@ -45,16 +54,15 @@ curl -fsSL https://raw.githubusercontent.com/xinhi6716/axiom-forge/main/install.
 
 **更新：**重跑同一行，Windows 加 `-Update`，macOS/Linux 加 `--update`。完成後重啟或重新載入主機。
 
-已有同名 skill 或本機修改時會停止，不直接覆蓋。個人指令、模型設定與 API key 保持原樣。
+上述指令會下載並執行 `main` 上的安裝程式。執行前可先讀[Shell 安裝程式](install.sh)、[PowerShell 安裝程式](install.ps1)與 [Python 轉接程式](scripts/install.py)。
 
-## 從這裡開始
+## 使用前要知道的事
 
-- **科研 → [research-suite](skills/research-suite/SKILL.md)** — 界定問題、檢索文獻、評估證據、設計假說與分析資料。
-- **工程 → [poteto-mode](skills/poteto-mode/SKILL.md)** — 透過 Pstack 規劃、實作、審查與驗證成果。
+- **技能包含操作指引與輔助程式。** 安裝包不附 Python 環境、第三方 MCP、模型權重或憑證。RSI 提供研究方法，不會替你部署模型或執行環境。
 
-> 使用 Axiom Forge 研究這個問題，從 research-suite 開始，選用問題需要的技能。
+- **各環境的驗證程度不同。** Antigravity 與 Pi 目前只有安裝程式測試，沒有模型對話驗證；檔案放對位置，不代表研究品質已獲驗證。詳見[完整相容性表](docs/compatibility.md)。
 
-依任務選用技能。RSI 提供迭代研究思路；安裝不會部署模型或執行環境。
+- **技能目錄安裝遇到同名衝突或已修改的套件內容會停止。** Codex、Claude Code 則由各自插件管理器維護快取。安裝不修改個人指令、模型設定與 API key。Pi 使用共用技能目錄，其他應用程式也可能讀到它。
 
 ## 倉庫導覽
 
@@ -71,3 +79,4 @@ licenses/           上游著作權與 MIT 聲明
 ---
 
 **[MIT 授權](LICENSE)。** 整合 Lauren Tan 的 Pstack、LIU-31415 的 codex-research 與 K-Dense 科研技能。本專案為獨立整合發行；詳見[來源與授權](licenses/README.md)。
+

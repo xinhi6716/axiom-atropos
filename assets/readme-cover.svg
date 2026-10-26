@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="236" viewBox="0 0 960 236" role="img" aria-labelledby="title desc">
+<title id="title">Axiom Forge</title><desc id="desc">Axiom Forge. Research and engineering skills. An ivory A with an amber crossbar on a midnight field.</desc>
+<rect width="960" height="236" rx="20" fill="#101820"/>
+<path d="M0 212H960" stroke="#30414c"/>
+<path d="M38 212H164" stroke="#ffad47" stroke-width="3"/>
+<g transform="translate(34 23) scale(.36)"><path d="M104 376 228 116h56l124 260h-70l-82-181-82 181Z" fill="#F4F1E8"/><path d="m200 288 128-21-29 58-128 21Z" fill="#FFAD47"/><path d="m380 72 12 30 30 12-30 12-12 30-12-30-30-12 30-12Z" fill="#FFAD47"/></g>
+<text x="222" y="75" fill="#FFAD47" font-family="sans-serif" font-size="15" letter-spacing="3">RESEARCH / ENGINEERING</text>
+<text x="218" y="138" fill="#F4F1E8" font-family="sans-serif" font-size="56" font-weight="700" letter-spacing="-2">Axiom Forge</text>
+<text x="222" y="176" fill="#BBC7CD" font-family="sans-serif" font-size="20">Skills for the agent you already use.</text>
+<path d="M852 42V176M826 67H878M826 151H878" fill="none" stroke="#30414c" stroke-width="2"/>
+</svg>
