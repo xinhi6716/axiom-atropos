@@ -1,0 +1,18 @@
+# Personal instructions never belong in this distribution.
+AGENTS.md
+AGENTS.override.md
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+dist/
+*.safetensors
+*.pt
+*.pth
+*.onnx
+.DS_Store
+Thumbs.db

@@ -1,0 +1,20 @@
+{
+  "name": "axiom-forge",
+  "interface": {
+    "displayName": "Axiom Forge"
+  },
+  "plugins": [
+    {
+      "name": "axiom-forge",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "axiom-forge",
+  "owner": {
+    "name": "xinhi6716"
+  },
+  "metadata": {
+    "description": "Evidence into insight. Insight into verified work. Research skills and Pstack in one portable agent toolkit."
+  },
+  "plugins": [
+    {
+      "name": "axiom-forge",
+      "source": "./",
+      "description": "Evidence into insight. Insight into verified work. Research skills and Pstack in one portable agent toolkit.",
+      "version": "1.0.0"
+    }
+  ]
+}

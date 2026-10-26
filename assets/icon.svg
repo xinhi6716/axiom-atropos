@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+<title id="title">Axiom Forge</title><desc id="desc">An ivory A cut from an amber forge, with a four-point spark on a midnight background.</desc>
+<rect width="512" height="512" rx="112" fill="#101820"/>
+<path d="M104 376 228 116h56l124 260h-70l-82-181-82 181Z" fill="#F4F1E8"/>
+<path d="m200 288 128-21-29 58-128 21Z" fill="#FFAD47"/>
+<path d="m380 72 12 30 30 12-30 12-12 30-12-30-30-12 30-12Z" fill="#FFAD47"/>
+<path d="M188 407h136" stroke="#FFAD47" stroke-width="12" stroke-linecap="round"/>
+</svg>

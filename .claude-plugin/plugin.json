@@ -1,0 +1,11 @@
+{
+  "name": "axiom-forge",
+  "version": "1.0.0",
+  "description": "Evidence into insight. Insight into verified work. Research skills and Pstack in one portable agent toolkit.",
+  "author": {
+    "name": "xinhi6716"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/xinhi6716/axiom-forge",
+  "homepage": "https://github.com/xinhi6716/axiom-forge"
+}
