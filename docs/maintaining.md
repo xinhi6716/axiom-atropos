@@ -15,4 +15,8 @@ Change the version in root plugin.json, run scripts/sync_metadata.py, scripts/va
 
 Consumers following main refresh the marketplace and install the new version; consumers pinned to a tag explicitly choose a newer tag. These operations do not synchronize changes from installed caches back to the source.
 
-Keep README.md, README.zh-TW.md and README.zh-CN.md aligned when changing installation or support. Host paths live in scripts/install.py; update its tests and the support tables together. The upstream skills-registry commit in sources.json records the directory reference, not end-to-end certification by each host vendor.
+Keep README.md, README.zh-TW.md and README.zh-CN.md aligned when changing installation or support. The five supported host paths live in scripts/install.py; update its tests and the support tables together. The upstream skills-registry commit in sources.json records the directory reference, not end-to-end certification by each host vendor.
+
+## Repository layout
+
+Keep user-facing introductions in the three root READMEs. Detailed compatibility and release procedures belong in docs/; upstream notices belong in licenses/. Preserve skills/ and pstack-resources/ relative paths. Root host manifests are generated from plugin.json, not separately maintained.

@@ -13,35 +13,18 @@ import zipfile
 
 REPO = 'xinhi6716/axiom-forge'
 HOSTS = {
-    'deepseek': '.dsh', 'cursor': '.cursor', 'gemini': '.gemini',
-    'copilot': '.copilot', 'opencode': '.config/opencode',
-    'cline': '.cline', 'hermes': '.hermes',
-    'windsurf': '.codeium/windsurf', 'roo': '.roo', 'kilo': '.kilo',
-    'antigravity': '.gemini/antigravity', 'amp': '.config/agents',
-    'goose': '.config/goose', 'kimi': '.agents', 'qwen': '.qwen',
-    'pi': '.agents', 'openclaw': '.openclaw', 'continue': '.continue',
-    'droid': '.factory', 'kiro': '.kiro', 'trae': '.trae',
-    'trae-cn': '.trae-cn', 'qoder': '.qoder', 'qoder-cn': '.qoder-cn',
-    'openhands': '.openhands', 'mistral-vibe': '.vibe',
-    'augment': '.augment', 'junie': '.junie', 'crush': '.config/crush',
-    'warp': '.agents', 'zed': '.agents', 'minimax': '.minimax',
-    'codebuddy': '.codebuddy', 'devin': '.config/devin',
-    'deepagents': '.deepagents/agent', 'universal': '.agents',
+    'deepseek': '.dsh',
+    'antigravity': '.gemini/antigravity',
+    'pi': '.agents',
 }
 
-ALIASES = {'deepseek-harness': 'deepseek', 'claude-code': 'claude',
-           'gemini-cli': 'gemini', 'github-copilot': 'copilot',
-           'qwen-code': 'qwen', 'kimi-code-cli': 'kimi', 'hermes-agent': 'hermes'}
+ALIASES = {'deepseek-harness': 'deepseek', 'claude-code': 'claude'}
 
 
 def host_base(host, home):
-    overrides = {'deepseek': 'DSH_HOME', 'hermes': 'HERMES_HOME', 'mistral-vibe': 'VIBE_HOME'}
-    if host in overrides and os.environ.get(overrides[host]):
-        return Path(os.environ[overrides[host]]).expanduser().resolve()
-    relative = HOSTS[host]
-    if relative.startswith('.config/') and os.environ.get('XDG_CONFIG_HOME'):
-        return Path(os.environ['XDG_CONFIG_HOME']).expanduser().resolve() / relative.removeprefix('.config/')
-    return home / relative
+    if host == 'deepseek' and os.environ.get('DSH_HOME'):
+        return Path(os.environ['DSH_HOME']).expanduser().resolve()
+    return home / HOSTS[host]
 
 
 def run(*args):
