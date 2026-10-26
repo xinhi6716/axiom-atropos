@@ -12,4 +12,5 @@ jobs:
       - run: python scripts/sync_metadata.py --check
       - run: python scripts/validate.py
       - run: python scripts/test_install.py
+      - run: python scripts/test_package.py
       - run: python scripts/package.py

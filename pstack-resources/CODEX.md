@@ -2,7 +2,7 @@
 
 This is poteto's cursor/plugins Pstack, bundled in the axiom-forge plugin for Codex. Apply these host mappings before the upstream workflow. The user's task and global AGENTS.md remain authoritative.
 
-- Resolve `/skill-name` as the installed `$skill-name`; read sibling SKILL.md files as needed. When this suite is selected, apply poteto-mode and its relevant bundled skills. Global default activation remains a host AGENTS.md setting. This overrides upstream manual-invocation-only wording; it does not mean running every workflow on every task.
+- Resolve `/skill-name` as the installed `$skill-name`; read sibling SKILL.md files as needed. When Pstack engineering work is selected, apply poteto-mode and its relevant bundled skills. Global default activation remains a host AGENTS.md setting. This overrides upstream manual-invocation-only wording; it does not mean running every workflow on every task.
 - Cursor Task/Task tool means the available Codex collaboration tools. For a poteto-agent delegate, use an available worker/default agent and include the full installed poteto-mode path and the upstream agent instructions from this resources directory. For comment-sicko, include agents/comment-sicko.md and keep its read-only scope. Do not invent unavailable agent types. Interrupt finished child agents.
 - Use the parent chat's model and reasoning effort unless the user or this file's role overrides explicitly choose an available model. Cursor Opus/Grok defaults are not installed or entitled by this package. Omit model overrides to inherit. Distinct-model review requires actually available distinct models; report a limitation instead of calling same-model reviewers independent model families.
 - `/setup-pstack` configures this file's Role overrides section, not ~/.cursor/rules. Enumerate currently exposed Codex model/effort choices. Ask only for the desired changes when unspecified, preserve other roles, and never change app-wide model settings. Default budget: inherit parent; all roles: inherit parent.
@@ -13,7 +13,7 @@ This is poteto's cursor/plugins Pstack, bundled in the axiom-forge plugin for Co
 
 ## Scientific research routing
 
-For scientific research, first read [research integration](../skills/codex-research/references/pstack-integration.md). It owns the routing among the five installed research skills and the RSI-Anything iteration skill, shared evidence records, host tools and scientific-versus-engineering verification. Use only the relevant workflows.
+For work that also needs scientific methods, use [research-suite](../skills/research-suite/SKILL.md) as the coordinator. It owns scientific routing; this file only maps Pstack tools to Codex.
 
 ## Role overrides
 

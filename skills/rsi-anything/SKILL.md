@@ -6,7 +6,7 @@ description: >-
 
 # RSI 科研迭代思路
 
-本 skill 是依據 RSI-Anything 建立的方法指引，不是官方執行框架。按[科研分工](../codex-research/references/pstack-integration.md)與其他技能配合。
+本 skill 是依據 RSI-Anything 建立的方法指引，不是官方執行框架。按[科研分工](../research-suite/references/routing.md)與其他技能配合。
 
 - 先明確研究問題、限制與判定條件，再提出候選與可區辨的預測。
 - 選擇能減少關鍵未知的檢驗；區分預測、模擬與實測回饋。

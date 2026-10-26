@@ -12,7 +12,7 @@ metadata:
   skill-author: K-Dense Inc.
 ---
 
-Codex：本 skill 在符合科研任務時自動選用。先讀取[科研與 Pstack 整合](../codex-research/references/pstack-integration.md)，同一任務已讀則沿用。
+本 skill 可獨立用於其對應的研究問題；需要跨技能協作時，再讀取 [research-suite](../research-suite/SKILL.md)。
 
 上游執行條件：Analytical guidance needs no network. Optional figures via the scientific-schematics skill require OPENROUTER_API_KEY and outbound API access to OpenRouter.
 

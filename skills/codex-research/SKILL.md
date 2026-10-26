@@ -10,7 +10,7 @@ description: Conduct question-driven literature research to explore a field, ref
 license: MIT
 ---
 
-Codex：本 skill 在符合科研任務時自動選用。先讀取[科研與 Pstack 整合](references/pstack-integration.md)，同一任務已讀則沿用。
+本 skill 可獨立處理文獻研究。需要跨技能協作時，再由 [research-suite](../research-suite/SKILL.md) 選擇流程；不預先載入 Pstack。
 
 # Codex Research
 

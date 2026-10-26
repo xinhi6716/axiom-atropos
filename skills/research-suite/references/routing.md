@@ -4,7 +4,7 @@
 
 | 需求 | 主責 |
 |---|---|
-| 查找原文、理解領域與綜合證據 | [codex-research](../SKILL.md) |
+| 查找原文、理解領域與綜合證據 | [codex-research](../../codex-research/SKILL.md) |
 | 系統性／範疇回顧與搜尋篩選紀錄 | [literature-review](../../literature-review/SKILL.md) |
 | 假說、替代解釋與區辨實驗 | [hypothesis-generation](../../hypothesis-generation/SKILL.md) |
 | 統計方法、效果量與不確定性 | [statistical-analysis](../../statistical-analysis/SKILL.md) |
