@@ -9,6 +9,9 @@ from install import HOSTS, install_skills
 
 class InstallationTests(unittest.TestCase):
     def setUp(self):
+        env_patch = patch.dict('os.environ', {}, clear=True)
+        env_patch.start()
+        self.addCleanup(env_patch.stop)
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
@@ -66,6 +69,14 @@ class InstallationTests(unittest.TestCase):
             with self.assertRaises(OSError):
                 install_skills(self.source, 'deepseek', home)
         self.assertEqual((home / '.dsh/skills/example/SKILL.md').read_text(), 'version one')
+
+    def test_custom_dsh_home_preserves_settings(self):
+        home = self.root / 'home'
+        profile = self.root / 'custom-profile'
+        with patch.dict('os.environ', {'DSH_HOME': str(profile)}):
+            install_skills(self.source, 'deepseek', home)
+        self.assertTrue((profile / 'skills/example/SKILL.md').exists())
+        self.assertFalse((home / '.dsh').exists())
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "axiom-forge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Evidence into insight. Insight into verified work. Research skills and Pstack in one portable agent toolkit.",
   "author": {
     "name": "xinhi6716"

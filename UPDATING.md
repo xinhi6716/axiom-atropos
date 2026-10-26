@@ -14,3 +14,5 @@ The repository owns skills, host adapters, scripts, manifests and upstream notic
 Change the version in root plugin.json, run scripts/sync_metadata.py, scripts/validate.py and scripts/package.py. Review the diff and CI, commit and push, tag v<VERSION>, and attach dist/axiom-forge-<VERSION>.zip to the GitHub release. Do not publish personal instructions, credentials, environments or model weights.
 
 Consumers following main refresh the marketplace and install the new version; consumers pinned to a tag explicitly choose a newer tag. These operations do not synchronize changes from installed caches back to the source.
+
+Keep README.md, README.zh-TW.md and README.zh-CN.md aligned when changing installation or support. Host paths live in scripts/install.py; update its tests and the support tables together. The upstream skills-registry commit in sources.json records the directory reference, not end-to-end certification by each host vendor.

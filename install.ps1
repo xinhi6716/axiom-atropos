@@ -1,5 +1,4 @@
 param(
-    [ValidateSet('codex','claude','deepseek','cursor','gemini','copilot','opencode','cline','hermes')]
     [string]$Agent = 'codex',
     [switch]$Update
 )

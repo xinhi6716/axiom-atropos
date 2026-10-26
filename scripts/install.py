@@ -16,7 +16,32 @@ HOSTS = {
     'deepseek': '.dsh', 'cursor': '.cursor', 'gemini': '.gemini',
     'copilot': '.copilot', 'opencode': '.config/opencode',
     'cline': '.cline', 'hermes': '.hermes',
+    'windsurf': '.codeium/windsurf', 'roo': '.roo', 'kilo': '.kilo',
+    'antigravity': '.gemini/antigravity', 'amp': '.config/agents',
+    'goose': '.config/goose', 'kimi': '.agents', 'qwen': '.qwen',
+    'pi': '.agents', 'openclaw': '.openclaw', 'continue': '.continue',
+    'droid': '.factory', 'kiro': '.kiro', 'trae': '.trae',
+    'trae-cn': '.trae-cn', 'qoder': '.qoder', 'qoder-cn': '.qoder-cn',
+    'openhands': '.openhands', 'mistral-vibe': '.vibe',
+    'augment': '.augment', 'junie': '.junie', 'crush': '.config/crush',
+    'warp': '.agents', 'zed': '.agents', 'minimax': '.minimax',
+    'codebuddy': '.codebuddy', 'devin': '.config/devin',
+    'deepagents': '.deepagents/agent', 'universal': '.agents',
 }
+
+ALIASES = {'deepseek-harness': 'deepseek', 'claude-code': 'claude',
+           'gemini-cli': 'gemini', 'github-copilot': 'copilot',
+           'qwen-code': 'qwen', 'kimi-code-cli': 'kimi', 'hermes-agent': 'hermes'}
+
+
+def host_base(host, home):
+    overrides = {'deepseek': 'DSH_HOME', 'hermes': 'HERMES_HOME', 'mistral-vibe': 'VIBE_HOME'}
+    if host in overrides and os.environ.get(overrides[host]):
+        return Path(os.environ[overrides[host]]).expanduser().resolve()
+    relative = HOSTS[host]
+    if relative.startswith('.config/') and os.environ.get('XDG_CONFIG_HOME'):
+        return Path(os.environ['XDG_CONFIG_HOME']).expanduser().resolve() / relative.removeprefix('.config/')
+    return home / relative
 
 
 def run(*args):
@@ -40,7 +65,7 @@ def digest(path):
 
 def install_skills(source, host, home):
     """Preflight every collision before writing; update only unchanged owned bundles."""
-    base = home / HOSTS[host]
+    base = host_base(host, home)
     record = base / '.axiom-forge-install.json'
     previous = json.loads(record.read_text(encoding='utf-8')) if record.exists() else {}
     if previous and previous.get('repository') != REPO:
@@ -107,10 +132,15 @@ def download_source(destination):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--host', choices=['codex', 'claude', *HOSTS], default='codex')
+    parser.add_argument('--host', choices=['codex', 'claude', *HOSTS, *ALIASES], default='codex')
+    parser.add_argument('--list-hosts', action='store_true', help='Show supported host selectors without installing')
     parser.add_argument('--update', action='store_true')
     parser.add_argument('--source', type=Path, help='Use a local checkout (for development/offline installation)')
     args = parser.parse_args()
+    if args.list_hosts:
+        print('\n'.join(['codex (native plugin)', 'claude (native plugin)', *[f'{host}: ~/{path}/skills' for host, path in HOSTS.items()]]))
+        return
+    args.host = ALIASES.get(args.host, args.host)
     if args.host == 'codex':
         if args.update:
             run('codex', 'plugin', 'marketplace', 'upgrade', 'axiom-forge')
