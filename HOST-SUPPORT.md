@@ -19,3 +19,5 @@ DeepSeek Harness 以原生 skill 目錄載入指令；這不等同安裝 Cordis 
 目錄式安裝只對預設使用者目錄生效。自訂 DSH_HOME、Hermes profile 或遠端／容器主機需在對應環境安裝；本機安裝不代表雲端代理已同步。若主機需要啟用 skills、信任來源或授予工具權限，沿用其原生介面處理，安裝器不改這些偏好。
 
 驗證分層：安裝器測試涵蓋所有目錄式目標、重複執行、版本更新、保護既有 skills、本機修改與失敗回復；原生插件另以主機 CLI 驗證。這些不代表所有主機、模型與 65 個工作流都已跑過完整科研任務。各主機只使用實際具備的工具，見 [HOSTS.md](pstack-resources/HOSTS.md)。
+
+1.0.0 發布驗證（2026-10-26）：Codex 從 GitHub 一行安裝與更新成功；Claude Code 在隔離設定目錄完成原生安裝與更新；DeepSeek 的預設目錄布局以 GitHub 下載的完整 65 skills 完成隔離安裝與重複更新，共用資源連結可解析。後者是檔案安裝驗證，未啟動 DeepSeek Harness 模型會話。CI 在 Linux 跑格式、連結、安裝器保護測試與打包，本機另在 Windows 執行。
