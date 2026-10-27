@@ -50,18 +50,20 @@ TOOLS = [
     {
         'name': 'gemini_preview',
         'description': (
-            'Ask a Gemini model through Antigravity (agy) for a read-only, human-facing explanation of finished work. '
-            'Runs in plan mode, so it does not edit files. Status is completed, failed, timeout or bridge_error.'),
+            'Have a Gemini model (through Antigravity, agy) rewrite worker reports into plain language for the user: '
+            'what was done, how it turned out, what the user must decide. Put the reports in `prompt`. Without `cwd` it runs '
+            'in an empty directory, so there is nothing for it to change. Status is completed, failed, timeout or bridge_error; '
+            'an empty reply is failed with kind empty_response.'),
         'inputSchema': {
             'type': 'object',
             'properties': {
                 'prompt': {'type': 'string'},
-                'cwd': {'type': 'string', 'description': 'Absolute directory agy may read.'},
+                'cwd': {'type': 'string', 'description': 'Absolute directory agy may read; omit to run in an empty directory.'},
                 'model': {'type': 'string', 'default': DEFAULT_AGY_MODEL},
                 'json_schema': {'type': 'object', 'description': 'Optional JSON Schema; result returned as structured_output.'},
                 'timeout_s': {'type': 'integer', 'minimum': 10, 'default': 600},
             },
-            'required': ['prompt', 'cwd'],
+            'required': ['prompt'],
         },
     },
     {

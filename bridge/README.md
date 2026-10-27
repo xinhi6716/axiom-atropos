@@ -5,7 +5,7 @@ A dependency-free MCP stdio server that lets Claude Code drive Codex and Antigra
 | Tool | Backend | Use |
 | --- | --- | --- |
 | `codex_run` | one long-lived `codex app-server` (JSON-RPC over stdio), one ephemeral thread per call | Send a brief to a `terra` worker or a `sol` integrator; the role resolves to a model the signed-in account lists |
-| `gemini_preview` | `agy` print mode, NDJSON in and out, plan mode | Read-only, human-facing explanation of finished work |
+| `gemini_preview` | `agy` print mode, NDJSON in and out | Rewrite worker reports into plain language: what was done, how it turned out, what the user must decide. Runs in an empty directory unless given `cwd`; plan mode is avoided because it answers with a plan document and a question |
 | `orch` | Pstack's `orch.ts` under Bun | Units, inbox, gates and status for one program; the store lives under `CLAUDE_PLUGIN_DATA` (or `AXIOM_ORCH_HOME`) so it survives plugin updates |
 | `bridge_status` | `--version` probes | Resolved Codex, agy and Bun executables, Java/TLC readiness, and whether the app-server is up |
 

@@ -118,8 +118,18 @@ class AgyTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
 
-    def run_prompt(self, prompt, **kwargs):
-        return agy_print.run(FAKE_AGY, prompt, self.temp.name, 'gemini-4-argon-medium', timeout_s=kwargs.pop('timeout_s', 20), **kwargs)
+    def run_prompt(self, prompt, cwd='temp', **kwargs):
+        cwd = self.temp.name if cwd == 'temp' else cwd
+        return agy_print.run(FAKE_AGY, prompt, cwd, 'gemini-4-argon-medium', timeout_s=kwargs.pop('timeout_s', 20), **kwargs)
+
+    def test_empty_success_is_a_failure(self):
+        result = self.run_prompt('AGY_EMPTY')
+        self.assertEqual((result['status'], result['error']['kind']), ('failed', 'empty_response'))
+
+    def test_without_cwd_runs_in_a_fresh_empty_directory(self):
+        Path(self.temp.name, 'secret.txt').write_text('x')
+        self.assertEqual(json.loads(self.run_prompt('AGY_CWD', cwd=None)['response']), [])
+        self.assertEqual(json.loads(self.run_prompt('AGY_CWD')['response']), ['secret.txt'])
 
     def test_success_with_schema(self):
         result = self.run_prompt('解釋這個模組', json_schema={'type': 'object', 'properties': {'answer': {'type': 'string'}}})
@@ -240,7 +250,7 @@ class McpStdioTests(unittest.TestCase):
         self.assertTrue(limited['isError'])
         self.assertEqual(limited['structuredContent']['error']['kind'], 'usageLimitExceeded')
 
-        preview = self.rpc('tools/call', {'name': 'gemini_preview', 'arguments': {'prompt': 'hi', 'cwd': self.temp.name}})['result']
+        preview = self.rpc('tools/call', {'name': 'gemini_preview', 'arguments': {'prompt': 'hi'}})['result']
         self.assertEqual(preview['structuredContent']['response'], 'echo: hi')
 
         bad = self.rpc('tools/call', {'name': 'codex_run', 'arguments': {'brief': 'GOAL', 'cwd': 'nope', 'model': 'm'}})['result']

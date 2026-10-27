@@ -9,13 +9,23 @@ from procs import BridgeError, kill_tree, require_directory
 
 
 def run(command, prompt, cwd, model, json_schema=None, timeout_s=600):
-    """agy exits 0 even when the turn fails, so success is read from the result event, never the exit code."""
-    require_directory(cwd)
+    """agy exits 0 even when the turn fails, so success is read from the result event, never the exit code.
+
+    Without `cwd` the turn runs in a fresh empty directory, which keeps a translation read-only by leaving it nothing to
+    touch. Plan mode is not used: it answers a direct request with a plan document and a question instead of the answer.
+    """
     if not prompt or not prompt.strip():
         raise BridgeError('invalid_argument', 'prompt is empty')
+    if cwd is not None:
+        require_directory(cwd)
+        return _run(command, prompt, cwd, model, json_schema, timeout_s)
+    with tempfile.TemporaryDirectory(prefix='axiom-agy-') as empty:
+        return _run(command, prompt, empty, model, json_schema, timeout_s)
+
+
+def _run(command, prompt, cwd, model, json_schema, timeout_s):
     schema_path = None
-    # Plan mode keeps the preview role read-only.
-    args = command + ['--input-format', 'stream-json', '--output-format', 'stream-json', '--model', model, '--mode', 'plan']
+    args = command + ['--input-format', 'stream-json', '--output-format', 'stream-json', '--model', model]
     try:
         if json_schema is not None:
             # A file avoids quoting JSON through Windows command lines.
@@ -51,15 +61,22 @@ def run(command, prompt, cwd, model, json_schema=None, timeout_s=600):
     if result is None:
         tail = '\n'.join(stderr[-10:])
         return {'status': 'bridge_error', 'error': {'kind': 'agy_no_result', 'message': f'agy exited {proc.returncode} without a result event\n{tail}'.strip()}}
-    succeeded = result.get('status') == 'SUCCESS'
-    return {
-        'status': 'completed' if succeeded else 'failed',
+    report = {
+        'status': 'completed',
         'response': result.get('response'),
         'structured_output': result.get('structured_output'),
         'conversation_id': result.get('conversation_id'),
         'usage': result.get('usage'),
-        'error': None if succeeded else {'kind': 'agy_' + str(result.get('status', 'unknown')).lower(), 'message': result.get('error') or ''},
+        'error': None,
     }
+    if result.get('status') != 'SUCCESS':
+        report['status'] = 'failed'
+        report['error'] = {'kind': 'agy_' + str(result.get('status', 'unknown')).lower(), 'message': result.get('error') or ''}
+    elif not (report['response'] or '').strip() and report['structured_output'] is None:
+        # A SUCCESS turn can spend its whole budget on thinking and tool calls and say nothing.
+        report['status'] = 'failed'
+        report['error'] = {'kind': 'empty_response', 'message': 'agy reported SUCCESS but returned no text'}
+    return report
 
 
 def _collect(stream, sink, parse):
