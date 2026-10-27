@@ -9,7 +9,7 @@ common = {k: manifest[k] for k in ('name', 'version', 'description', 'author', '
 name = common['name']
 outputs = {
     '.codex-plugin/plugin.json': {**common, 'skills': './skills/', **manifest['extensions']['com.openai']},
-    '.claude-plugin/plugin.json': common,
+    '.claude-plugin/plugin.json': {**common, **manifest['extensions'].get('com.anthropic', {})},
     '.agents/plugins/marketplace.json': {
         'name': name, 'interface': {'displayName': 'Axiom Forge'},
         'plugins': [{'name': name, 'source': {'source': 'local', 'path': './'},
@@ -26,5 +26,5 @@ for relative, value in outputs.items():
             raise SystemExit('Stale metadata: ' + relative)
     else:
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(content, encoding='utf-8')
+        path.write_text(content, encoding='utf-8', newline='\n')
 print('Host metadata OK.')

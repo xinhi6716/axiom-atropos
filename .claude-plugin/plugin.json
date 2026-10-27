@@ -7,5 +7,13 @@
   },
   "license": "MIT",
   "repository": "https://github.com/xinhi6716/axiom-forge",
-  "homepage": "https://github.com/xinhi6716/axiom-forge"
+  "homepage": "https://github.com/xinhi6716/axiom-forge",
+  "mcpServers": {
+    "axiom-bridge": {
+      "command": "python",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/bridge/server.py"
+      ]
+    }
+  }
 }

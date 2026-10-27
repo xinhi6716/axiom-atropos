@@ -26,6 +26,16 @@
           "Use Axiom Forge to investigate this question and select only the research and engineering workflows it needs."
         ]
       }
+    },
+    "com.anthropic": {
+      "mcpServers": {
+        "axiom-bridge": {
+          "command": "python",
+          "args": [
+            "${CLAUDE_PLUGIN_ROOT}/bridge/server.py"
+          ]
+        }
+      }
     }
   }
 }

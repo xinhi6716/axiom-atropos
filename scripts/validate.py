@@ -10,7 +10,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def content_files():
-    return sorted(p for p in ROOT.rglob('*') if p.is_file() and not {'.git', 'dist', '__pycache__'}.intersection(p.relative_to(ROOT).parts))
+    """Files a commit can publish: tracked or new, but not ignored local runtime such as bootstrap node_modules."""
+    listed = subprocess.check_output(['git', 'ls-files', '-z', '--cached', '--others', '--exclude-standard'], cwd=ROOT, text=True, encoding='utf-8')
+    return sorted(ROOT / name for name in set(listed.split('\0')) if name and (ROOT / name).is_file())
 
 
 def main():
