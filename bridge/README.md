@@ -12,7 +12,7 @@ Every result carries `status`; anything other than `completed` carries `error.ki
 
 ## Contracts
 
-- `brief` is the [Pstack orchestrate brief](../skills/poteto-mode/playbooks/orchestrate.md): the worker sees nothing else. Map a returned report onto `orch inbox push` the same way as any other worker completion.
+- `brief` follows the [dispatch policy](DISPATCH.md): GOAL, SCOPE and VERIFY, decided before dispatch. The worker sees nothing else. Map a returned report onto `orch inbox push` the same way as any other worker completion.
 - `cwd` must be an existing absolute directory; give each writer its own worktree.
 - `sandbox` is `read-only` or `workspace-write`. The bridge never exposes `danger-full-access`, and `approvalPolicy` is fixed to `never`; stray approval requests are refused and listed in `refused_requests`.
 - Codex threads are ephemeral, so workers keep no memory between calls.
