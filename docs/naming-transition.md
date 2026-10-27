@@ -1,12 +1,12 @@
 # Axiom Atropos: naming and compatibility
 
-**Axiom Atropos** is the selected new name for the skill pack previously presented as **Axiom Forge**. It belongs to **Moirai**, a series within the Axiom mother brand. This change updates the first-party visual identity and introductory documentation only; it does not rename the repository, migrate the installed package or replace its existing integrations.
+**Axiom Atropos** is the selected new name for the skill pack previously presented as **Axiom Forge**. It belongs to **Moirai**, a series within the Axiom mother brand. The repository has been renamed to `xinhi6716/axiom-atropos`. This documentation and visual update does not migrate installed packages or replace their existing integrations.
 
 ## What stays stable
 
 | Surface | Retained value or behavior |
 |---|---|
-| Repository and releases | `xinhi6716/axiom-forge` and its existing URLs |
+| Repository and releases | Canonical repository: `xinhi6716/axiom-atropos`; history and existing releases retained |
 | Plugin and marketplace identifiers | `axiom-forge` |
 | Host-facing display name and generated metadata | `Axiom Forge` in the existing manifests |
 | Install, update and invocation commands | Existing commands and host selectors, unchanged |
@@ -15,9 +15,9 @@
 | Version and packaging | Existing version and `axiom-forge` archive identifiers, unchanged |
 | Host support and verification | Existing compatibility table and evidence, unchanged |
 
-**No reinstall, command rewrite or manual cache migration is required for this branding-only update.** An installed host may continue to show **Axiom Forge**; that is expected while these compatibility identifiers remain stable. Keep using the documented install/update commands and existing repository links.
+**No reinstall, command rewrite or manual cache migration is required for this branding-only update.** An installed host may continue to show **Axiom Forge**; that is expected while these compatibility identifiers remain stable. The install examples retain their existing `axiom-forge` commands. First-party navigation uses the new canonical repository address.
 
-Any later identifier, package or repository migration will need its own compatibility plan. This document does not promise an automatic redirect or a future migration date.
+Any later plugin-identifier or package migration needs a separate compatibility plan. Repository renaming does not migrate local caches or change the host-facing identifiers.
 
 ## Product boundaries
 

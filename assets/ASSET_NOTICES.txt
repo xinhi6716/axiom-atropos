@@ -4,7 +4,7 @@ The Axiom Atropos shears/thread symbol and header compositions are original edit
 
 assets/icon.png is rendered directly from assets/icon.svg. The responsive header SVGs contain outlined DejaVu Serif/Sans/Sans Mono glyphs; no font binary is bundled. Font notice follows. Upstream pstack-resources artwork, credits and licenses are unchanged and are not relabelled as Axiom artwork.
 
-This is an identity transition from Axiom Forge to the selected name Axiom Atropos, not a repository, plugin identifier, host display-name or command migration.
+The repository is now axiom-atropos. This page refinement preserves plugin identifiers, host display names and command compatibility. Architectural headers, section thresholds and workflow compositions extend the same original Celestial Order vector system.
 
 Font source: https://dejavu-fonts.github.io/
 
