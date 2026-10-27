@@ -20,7 +20,7 @@ Read `${CLAUDE_PLUGIN_ROOT}/bridge/DISPATCH.md` before writing any brief. Every 
 3. Choose a lowercase slug for the program. Call `orch` with `["init"]`; an existing store is fine. Write each brief to `<store>/briefs/<unit>.md`, then `["unit", "add", <unit>, "--track", "build", "--brief", <that path>]`.
 4. For each unit in order:
    - `codex_run` with `role: "terra"`, `cwd` set to the project directory, and the brief.
-   - `orch` `["inbox", "push", "terra", <unit>, <status>]`.
+   - Write the report's `final_message`, unedited, to `<store>/reports/<unit>.md`, then `orch` `["inbox", "push", "terra", <unit>, <status>, "--report", <that path>]`.
    - The unit is verified when the report's `commands` shows its VERIFY command with exit code 0. Otherwise run VERIFY yourself in the project directory.
    - `orch` `["unit", "set", <unit>, "--state", "verified"]`, or `"failed"`.
    - A failed unit gets one fresh brief whose CONTEXT pastes the failing output. If that fails too, leave it failed and continue.
@@ -31,6 +31,7 @@ Read `${CLAUDE_PLUGIN_ROOT}/bridge/DISPATCH.md` before writing any brief. Every 
 
 Return only this:
 
+- the store path
 - one line per unit: id, state, model, changed files, input tokens
 - the full test command and its final result
 - each open choice you decided, one line each

@@ -83,7 +83,13 @@
     "paper": "https://arxiv.org/abs/2610.13912",
     "reference_commit": "8ba44cd73ec6f57b151ec06e2f71a0726adfb687"
   },
-  "skill_count": 65,
+  "axiom-forge": {
+    "origin": "Authored in this repository",
+    "skills": [
+      "god-mode"
+    ]
+  },
+  "skill_count": 66,
   "runtime_dependencies_bundled": false,
   "source_of_truth": "This Git repository. Edit skills and host integration here; installed copies and ZIPs are outputs.",
   "host-path-reference": {
