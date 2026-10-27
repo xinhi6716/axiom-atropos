@@ -37,7 +37,9 @@ TOOLS = [
                 'output_schema': {'type': 'object', 'description': 'JSON Schema for the final message; parsed into structured_output.'},
                 'timeout_s': {'type': 'integer', 'minimum': 10, 'default': 1800},
                 'lean': {'type': 'boolean', 'default': True,
-                         'description': 'Disable every Codex plugin, configured MCP server and the apps connector for this thread to cut per-call context.'},
+                         'description': ('For this thread only, disable every Codex plugin, configured MCP server, the apps connector, '
+                                         'goals, the skills catalog, the personality section and (unless web_search) the web search tool.')},
+                'web_search': {'type': 'boolean', 'default': False, 'description': 'Keep the web search tool in lean mode; costs ~2.5k input tokens per call.'},
                 'keep_plugins': {'type': 'array', 'items': {'type': 'string'}, 'description': 'Plugin ids such as name@marketplace that stay enabled in lean mode.'},
             },
             'required': ['brief', 'cwd'],
@@ -87,7 +89,7 @@ class Bridge:
                 args.get('brief'), args.get('cwd'), args.get('model') or DEFAULT_CODEX_MODEL,
                 args.get('sandbox') or 'workspace-write', args.get('effort'), args.get('output_schema'),
                 args.get('developer_instructions'), int(args.get('timeout_s') or 1800),
-                args.get('lean', True) is not False, args.get('keep_plugins') or ())
+                args.get('lean', True) is not False, args.get('keep_plugins') or (), args.get('web_search') is True)
         if name == 'gemini_preview':
             return agy_print.run(
                 resolve_command('AXIOM_AGY_CMD', 'agy'), args.get('prompt'), args.get('cwd'),

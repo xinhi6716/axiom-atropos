@@ -125,7 +125,7 @@ class CodexAppServer:
         return f'\nstderr:\n{tail}' if tail else ''
 
     def run(self, brief, cwd, model, sandbox, effort=None, output_schema=None, developer_instructions=None, timeout_s=1800,
-            lean=True, keep_plugins=()):
+            lean=True, keep_plugins=(), web_search=False):
         require_directory(cwd)
         if sandbox not in SANDBOXES:
             raise BridgeError('invalid_argument', f'sandbox must be one of {SANDBOXES}; danger-full-access is not exposed by the bridge')
@@ -137,7 +137,7 @@ class CodexAppServer:
             thread_params['developerInstructions'] = developer_instructions
         disabled = None
         if lean:
-            thread_params['config'], disabled = self._lean_config(cwd, set(keep_plugins))
+            thread_params['config'], disabled = self._lean_config(cwd, set(keep_plugins), web_search)
         thread_id = self._request('thread/start', thread_params, timeout=120)['thread']['id']
         try:
             turn_params = {'threadId': thread_id, 'input': [{'type': 'text', 'text': brief}]}
@@ -150,16 +150,28 @@ class CodexAppServer:
         finally:
             self._threads.pop(thread_id, None)
 
-    def _lean_config(self, cwd, keep_plugins):
-        """Every MCP server and plugin adds tool schemas and skills to each worker's context; a brief needs none of them."""
+    def _lean_config(self, cwd, keep_plugins, web_search):
+        """A brief carries everything a worker needs, so drop context it would otherwise pay for on every call.
+
+        Measured on a one-word brief: plugins, MCP servers and apps cost ~6.1k input tokens, the web_search tool
+        ~2.5k, the skills catalog ~1.9k, goals ~0.6k and the personality section ~0.4k. The base instructions
+        (~3.5k) stay, because they teach the shell and patch tools the worker relies on.
+        """
         installed = self._request('plugin/installed', {'cwds': [cwd]}, timeout=60)
         plugins = sorted(plugin['id'] for market in installed.get('marketplaces') or [] for plugin in market.get('plugins') or []
                          if plugin.get('enabled') and plugin['id'] not in keep_plugins)
         servers = sorted((self._request('config/read', {'cwd': cwd}, timeout=60)['config'].get('mcp_servers') or {}))
-        config = {'features': {'apps': False},
+        config = {'features': {'apps': False, 'goals': False},
                   'plugins': {plugin_id: {'enabled': False} for plugin_id in plugins},
-                  'mcp_servers': {name: {'enabled': False} for name in servers}}
-        return config, {'apps': True, 'plugins': plugins, 'mcp_servers': servers}
+                  'mcp_servers': {name: {'enabled': False} for name in servers},
+                  # Positive values only; 1 leaves no room for any catalog entry.
+                  'skills': {'max_context_tokens': 1},
+                  'personality': 'none'}
+        sections = ['apps', 'goals', 'skills_catalog', 'personality']
+        if not web_search:
+            config['web_search'] = 'disabled'
+            sections.append('web_search')
+        return config, {'sections': sections, 'plugins': plugins, 'mcp_servers': servers}
 
     def _collect(self, thread_id, turn_id, structured, timeout_s, disabled=None):
         events = self._threads[thread_id]

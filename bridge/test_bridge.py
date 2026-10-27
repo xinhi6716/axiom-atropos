@@ -41,9 +41,17 @@ class CodexAppServerTests(unittest.TestCase):
 
     def test_lean_mode_disables_plugins_servers_and_apps(self):
         report = self.run_brief('GOAL lean')
-        self.assertEqual(report['disabled'], {'apps': True, 'plugins': ['keepme@personal', 'panel@personal'], 'mcp_servers': ['node_repl']})
+        self.assertEqual(report['disabled'], {'sections': ['apps', 'goals', 'skills_catalog', 'personality', 'web_search'],
+                                              'plugins': ['keepme@personal', 'panel@personal'], 'mcp_servers': ['node_repl']})
+        self.assertEqual(json.loads(report['final_message'])['config']['skills'], {'max_context_tokens': 1})
+        self.assertEqual(json.loads(report['final_message'])['config']['web_search'], 'disabled')
         self.assertEqual(report['started_mcp_servers'], [])
         self.assertEqual(report['usage']['totalTokens'], 1240)
+
+    def test_web_search_can_stay_on_in_lean_mode(self):
+        report = self.run_brief('GOAL search', web_search=True)
+        self.assertNotIn('web_search', report['disabled']['sections'])
+        self.assertNotIn('web_search', json.loads(report['final_message'])['config'])
 
     def test_keep_plugins_and_inherit_mode(self):
         kept = self.run_brief('GOAL keep', keep_plugins=['keepme@personal'])

@@ -16,7 +16,16 @@ Every result carries `status`; anything other than `completed` carries `error.ki
 - `cwd` must be an existing absolute directory; give each writer its own worktree.
 - `sandbox` is `read-only` or `workspace-write`. The bridge never exposes `danger-full-access`, and `approvalPolicy` is fixed to `never`; stray approval requests are refused and listed in `refused_requests`.
 - Codex threads are ephemeral, so workers keep no memory between calls.
-- `lean` (default on) asks the app-server which plugins and configured MCP servers are enabled and turns all of them, plus the apps connector, off for that thread only; `keep_plugins` exempts named plugins. On a one-word brief this cut input from 19,863 to 13,805 tokens. The report lists what was disabled, which MCP servers actually started, and the thread's token `usage`.
+- `lean` (default on) changes that thread only: it asks the app-server which plugins and configured MCP servers are enabled and turns them all off, along with the apps connector, goals, the skills catalog, the personality section and the web search tool (`web_search: true` keeps it). `keep_plugins` exempts named plugins. The report lists what was disabled, which MCP servers actually started, and the thread's token `usage`.
+
+  Measured with `gpt-5.6-terra` at low effort:
+
+  | Brief | Inherited config | Lean |
+  | --- | --- | --- |
+  | One-word reply | 19,863 input tokens | 8,457 |
+  | Write a module and its tests, then run them | 149,414 input tokens, FAIL (detoured into Pstack skills, then sandbox-blocked) | 29,084, PASS |
+
+  Codex's base instructions (~3.5k tokens) stay in place because they teach the shell and patch tools.
 - Upstream API rejections that Codex labels `other` are reported by their provider code, such as `model_not_found`. Available models depend on the signed-in account; `model/list` is the source of truth.
 
 ## Configuration
