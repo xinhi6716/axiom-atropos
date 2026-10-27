@@ -1,14 +1,23 @@
 <p align="center">
-  <img src="assets/readme-cover.svg" width="960" alt="Axiom Forge — research and engineering skills" />
+  <picture>
+    <source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/readme-cover-dark-mobile.svg" />
+    <source media="(max-width: 600px)" srcset="assets/readme-cover-mobile.svg" />
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme-cover-dark.svg" />
+    <img src="assets/readme-cover.svg" width="960" alt="Axiom Atropos — research and engineering skill pack in the Axiom Moirai family" />
+  </picture>
 </p>
 
-# Axiom Forge
+# Axiom Atropos
 
 **把研究与工程工作交给你正在使用的 agent。**
 
 <p align="center"><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a></p>
 
-Axiom Forge 为 **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi** 整合 **66 个 skills**。你可以用它拆解研究问题、核对证据，或规划与检查代码修改。
+Axiom Atropos 为 **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi** 整合 **66 个 skills**。你可以用它拆解研究问题、核对证据，或规划与检查代码修改。
+
+**名称过渡：** **Axiom Atropos** 是本 **Axiom Forge** 技能包选定的新名称，属于 Axiom 品牌下的 **Moirai** 系列。本次仅更新品牌与文档；仓库网址、安装命令、插件标识及宿主显示名称均保持不变。[名称与兼容性说明](docs/naming-transition.md)。
+
+此套件包含技能与现有 agent 的辅助集成。**Axiom Lachesis 仍在规划中**；本次品牌更新不会实现或附带该独立产品。
 
 ## 你现在要做什么？
 
@@ -16,7 +25,7 @@ Axiom Forge 为 **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi*
 
 从 [research-suite](skills/research-suite/SKILL.md) 开始，按问题选用文献检索、假说设计、统计分析与证据评估技能。
 
-> 使用 Axiom Forge 研究这个问题，从 research-suite 开始，选用问题需要的技能。
+> 使用 Axiom Atropos 研究这个问题，从 research-suite 开始，选用问题需要的技能。
 
 ### 修改一段代码
 

@@ -1,14 +1,23 @@
 <p align="center">
-  <img src="assets/readme-cover.svg" width="960" alt="Axiom Forge — research and engineering skills" />
+  <picture>
+    <source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/readme-cover-dark-mobile.svg" />
+    <source media="(max-width: 600px)" srcset="assets/readme-cover-mobile.svg" />
+    <source media="(prefers-color-scheme: dark)" srcset="assets/readme-cover-dark.svg" />
+    <img src="assets/readme-cover.svg" width="960" alt="Axiom Atropos — research and engineering skill pack in the Axiom Moirai family" />
+  </picture>
 </p>
 
-# Axiom Forge
+# Axiom Atropos
 
 **Research and engineering skills for the agent you already use.**
 
 <p align="center"><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a></p>
 
-Axiom Forge brings **66 skills** into **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi**. Use them to work through a research question, review evidence, or plan and check a code change.
+Axiom Atropos brings **66 skills** into **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi**. Use them to work through a research question, review evidence, or plan and check a code change.
+
+**Naming transition:** Axiom Atropos is the selected new name for this **Axiom Forge** skill pack, in the Axiom family's **Moirai** series. Repository URLs, install commands, plugin IDs and host display names stay unchanged in this branding-only update. [Naming & compatibility](docs/naming-transition.md).
+
+This package includes skills and supporting agent integrations. **Axiom Lachesis remains planned**; this branding change does not implement or bundle that separate product.
 
 ## What are you working on?
 
@@ -16,7 +25,7 @@ Axiom Forge brings **66 skills** into **Codex · Claude Code · DeepSeek Harness
 
 Start with [research-suite](skills/research-suite/SKILL.md). It selects workflows for literature searches, hypothesis design, statistics and evidence critique.
 
-> Use Axiom Forge to investigate this question. Start with research-suite and select the skills the problem needs.
+> Use Axiom Atropos to investigate this question. Start with research-suite and select the skills the problem needs.
 
 ### A code change
 
@@ -24,7 +33,7 @@ Start with [poteto-mode](skills/poteto-mode/SKILL.md). It routes engineering wor
 
 > Use poteto-mode to investigate this bug. Read the relevant code, reproduce the failure, and explain how you will check the fix.
 
-Pick the skills the task needs. You do not need to load all 65.
+Pick the skills the task needs. You do not need to load all 66.
 
 ## Install for your host
 
@@ -67,7 +76,7 @@ These commands download and run an installer from `main`. Read [the shell instal
 ## Inside the repository
 
 ```text
-skills/             65 reusable workflows
+skills/             66 reusable workflows
 pstack-resources/   Shared Pstack references and host mappings
 docs/               Compatibility and maintenance
 scripts/            Installer, validation and packaging
