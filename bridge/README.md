@@ -12,7 +12,15 @@ A dependency-free MCP stdio server that lets Claude Code drive Codex and Antigra
 
 [`/god-mode <wish>`](../skills/god-mode/SKILL.md) runs the whole pipeline from the main conversation. The [dispatcher agent](../agents/dispatcher.md) (`axiom-forge:dispatcher`, Sonnet) splits the wish into units, pastes relevant memory into each brief, dispatches terra workers, verifies from the command record, and only calls a sol integrator when the full suite fails. The [memory keeper](../agents/memory-keeper.md) (`axiom-forge:memory-keeper`, Haiku) then records what later units can reuse.
 
-On Windows, the Codex sandbox cannot start Microsoft Store (MSIX) apps: launching the Store builds of `pwsh` or `python` fails with `CreateProcessAsUserW failed: 5` every time, while System32 `powershell.exe` and `cmd.exe` work. Codex prefers `pwsh` when one is on PATH, so a machine whose only PowerShell 7 is the Store build will see workers unable to run VERIFY. The dispatcher reruns VERIFY itself, so results stay trustworthy; installing PowerShell 7 from its MSI removes the detour.
+On Windows, the Codex sandbox cannot start Microsoft Store (MSIX) apps: launching the Store builds of `pwsh` or `python` directly fails with `CreateProcessAsUserW failed: 5` every time, while System32 `powershell.exe` and `cmd.exe` work. Codex runs worker commands through `pwsh` when one is on PATH, so a machine whose only PowerShell 7 is the Store build leaves workers unable to run VERIFY; the dispatcher then reruns it, so results stay trustworthy.
+
+The fix is PowerShell 7 from its MSI. winget installs the MSIX build by default and refuses to replace a Store install with an MSI, so remove the Store package first, then:
+
+```powershell
+winget install --id Microsoft.PowerShell --exact --installer-type wix
+```
+
+With the MSI `pwsh`, a Store-installed Python works when invoked through the shell (10 of 10 sandboxed `python -m unittest` runs passed), so Python itself does not need replacing. Restart Claude Code afterwards so the bridge's Codex app-server sees the new PATH.
 
 Every result carries `status`; anything other than `completed` carries `error.kind` (for example `usageLimitExceeded`, `timeout`, `codex_exited`, `agy_error`). agy exits 0 on failed turns, so the bridge reads the result event rather than the exit code.
 
