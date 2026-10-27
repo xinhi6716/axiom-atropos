@@ -124,6 +124,18 @@ class CodexAppServer:
         tail = '\n'.join(self._stderr[-10:])
         return f'\nstderr:\n{tail}' if tail else ''
 
+    def resolve_model(self, role):
+        """Map a role to the newest listed model whose id names it, else the account default; ids differ per account."""
+        self.ensure_started()
+        models = self._request('model/list', {}, timeout=60).get('data') or []
+        named = [m['id'] for m in models if role in m['id']]
+        if named:
+            return named[0]
+        default = next((m['id'] for m in models if m.get('isDefault')), None)
+        if default is None:
+            raise BridgeError('model_not_found', f'no model for role {role!r} and no account default in model/list')
+        return default
+
     def run(self, brief, cwd, model, sandbox, effort=None, output_schema=None, developer_instructions=None, timeout_s=1800,
             lean=True, keep_plugins=(), web_search=False):
         require_directory(cwd)
@@ -131,6 +143,8 @@ class CodexAppServer:
             raise BridgeError('invalid_argument', f'sandbox must be one of {SANDBOXES}; danger-full-access is not exposed by the bridge')
         if not brief or not brief.strip():
             raise BridgeError('invalid_argument', 'brief is empty')
+        if not model:
+            raise BridgeError('invalid_argument', 'model or role is required')
         self.ensure_started()
         thread_params = {'model': model, 'ephemeral': True, 'sandbox': sandbox, 'approvalPolicy': 'never', 'cwd': cwd}
         if developer_instructions:
@@ -146,7 +160,9 @@ class CodexAppServer:
             if output_schema is not None:
                 turn_params['outputSchema'] = output_schema
             turn_id = self._request('turn/start', turn_params, timeout=120)['turn']['id']
-            return self._collect(thread_id, turn_id, output_schema is not None, timeout_s, disabled)
+            report = self._collect(thread_id, turn_id, output_schema is not None, timeout_s, disabled)
+            report['model'] = model
+            return report
         finally:
             self._threads.pop(thread_id, None)
 
@@ -176,7 +192,7 @@ class CodexAppServer:
     def _collect(self, thread_id, turn_id, structured, timeout_s, disabled=None):
         events = self._threads[thread_id]
         deadline = time.monotonic() + timeout_s
-        report = {'status': None, 'thread_id': thread_id, 'turn_id': turn_id, 'final_message': None,
+        report = {'status': None, 'thread_id': thread_id, 'turn_id': turn_id, 'model': None, 'final_message': None,
                   'structured_output': None, 'commands': [], 'file_changes': [], 'refused_requests': [],
                   'usage': None, 'disabled': disabled, 'started_mcp_servers': [], 'error': None}
         while True:

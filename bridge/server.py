@@ -10,11 +10,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import agy_print  # noqa: E402
+import orch_cli  # noqa: E402
 from codex_app import SANDBOXES, CodexAppServer  # noqa: E402
 from procs import BridgeError, resolve_command  # noqa: E402
 
 SERVER_INFO = {'name': 'axiom-bridge', 'version': '0.1.0'}
-DEFAULT_CODEX_MODEL = 'gpt-6.1-terra'
+ROLES = ('terra', 'sol')
 DEFAULT_AGY_MODEL = 'gemini-4-argon-medium'
 
 TOOLS = [
@@ -22,15 +23,16 @@ TOOLS = [
         'name': 'codex_run',
         'description': (
             'Run one Codex turn in a fresh ephemeral thread and return a structured report. '
-            'Pass a complete Pstack brief (GOAL, SCOPE, CONTEXT, ACCEPTANCE, VERIFY, TIMEBOX, FORBIDDEN, REPORT, STANDING) '
-            'as `brief`: the worker cannot see this chat. Use a terra model for modular units and a sol model for integration. '
+            'Write `brief` per bridge/DISPATCH.md (GOAL, SCOPE, VERIFY): the worker sees nothing else. '
+            'Use role terra for modular units and role sol for integration. '
             'Status is completed, failed, interrupted, timeout or bridge_error; anything but completed carries `error`.'),
         'inputSchema': {
             'type': 'object',
             'properties': {
                 'brief': {'type': 'string', 'description': 'Full worker brief; sent as the only user message.'},
                 'cwd': {'type': 'string', 'description': 'Absolute working directory, ideally the unit\'s own worktree.'},
-                'model': {'type': 'string', 'default': DEFAULT_CODEX_MODEL},
+                'role': {'type': 'string', 'enum': list(ROLES), 'description': 'Resolved to a model this Codex account lists; the report names it.'},
+                'model': {'type': 'string', 'description': 'Explicit model id; overrides role.'},
                 'sandbox': {'type': 'string', 'enum': list(SANDBOXES), 'default': 'workspace-write'},
                 'effort': {'type': 'string', 'description': 'Reasoning effort advertised by the model, e.g. low, medium, high.'},
                 'developer_instructions': {'type': 'string', 'description': 'Role contract layered over the user\'s Codex AGENTS.md.'},
@@ -63,6 +65,20 @@ TOOLS = [
         },
     },
     {
+        'name': 'orch',
+        'description': (
+            "Run Pstack's orch bookkeeping CLI (units, inbox, ledger, gates, standing orders, status) on the store for `project`. "
+            'The store lives in the plugin data directory and survives plugin updates; its path is returned as `store`.'),
+        'inputSchema': {
+            'type': 'object',
+            'properties': {
+                'project': {'type': 'string', 'description': 'Lowercase slug naming the program, e.g. todo-stats.'},
+                'args': {'type': 'array', 'items': {'type': 'string'}, 'description': 'orch arguments, e.g. ["unit", "add", "u1", "--track", "build"].'},
+            },
+            'required': ['project', 'args'],
+        },
+    },
+    {
         'name': 'bridge_status',
         'description': ('Report which Codex, agy and Bun executables the bridge resolved and their versions, whether Java and '
                         'tla2tools.jar are configured for statechart, and whether the Codex app-server is running.'),
@@ -85,8 +101,13 @@ class Bridge:
 
     def call(self, name, args):
         if name == 'codex_run':
-            return self.codex().run(
-                args.get('brief'), args.get('cwd'), args.get('model') or DEFAULT_CODEX_MODEL,
+            role = args.get('role')
+            if role is not None and role not in ROLES:
+                raise BridgeError('invalid_argument', f'role must be one of {ROLES}')
+            codex = self.codex()
+            model = args.get('model') or (codex.resolve_model(role) if role else None)
+            return codex.run(
+                args.get('brief'), args.get('cwd'), model,
                 args.get('sandbox') or 'workspace-write', args.get('effort'), args.get('output_schema'),
                 args.get('developer_instructions'), int(args.get('timeout_s') or 1800),
                 args.get('lean', True) is not False, args.get('keep_plugins') or (), args.get('web_search') is True)
@@ -94,6 +115,8 @@ class Bridge:
             return agy_print.run(
                 resolve_command('AXIOM_AGY_CMD', 'agy'), args.get('prompt'), args.get('cwd'),
                 args.get('model') or DEFAULT_AGY_MODEL, args.get('json_schema'), int(args.get('timeout_s') or 600))
+        if name == 'orch':
+            return orch_cli.run(resolve_command('AXIOM_BUN_CMD', 'bun'), args.get('project'), args.get('args'))
         if name == 'bridge_status':
             return self.status()
         raise BridgeError('unknown_tool', f'unknown tool {name}')

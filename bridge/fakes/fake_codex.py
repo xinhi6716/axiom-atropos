@@ -39,6 +39,8 @@ for line in sys.stdin:
         continue
     if method == 'initialize':
         send({'id': message['id'], 'result': {'userAgent': 'fake'}})
+    elif method == 'model/list':
+        send({'id': message['id'], 'result': {'data': [{'id': 'gpt-6-luna', 'isDefault': True}, {'id': 'gpt-5.6-terra', 'isDefault': False}]}})
     elif method == 'plugin/installed':
         send({'id': message['id'], 'result': {'marketplaces': [{'name': 'personal', 'plugins': [
             {'id': 'panel@personal', 'enabled': True}, {'id': 'keepme@personal', 'enabled': True}, {'id': 'off@personal', 'enabled': False}]}]}})

@@ -4,9 +4,12 @@ A dependency-free MCP stdio server that lets Claude Code drive Codex and Antigra
 
 | Tool | Backend | Use |
 | --- | --- | --- |
-| `codex_run` | one long-lived `codex app-server` (JSON-RPC over stdio), one ephemeral thread per call | Send a full Pstack brief to a terra worker or a sol integrator |
+| `codex_run` | one long-lived `codex app-server` (JSON-RPC over stdio), one ephemeral thread per call | Send a brief to a `terra` worker or a `sol` integrator; the role resolves to a model the signed-in account lists |
 | `gemini_preview` | `agy` print mode, NDJSON in and out, plan mode | Read-only, human-facing explanation of finished work |
-| `bridge_status` | `--version` probes | Which executables were resolved and whether the app-server is up |
+| `orch` | Pstack's `orch.ts` under Bun | Units, inbox, gates and status for one program; the store lives under `CLAUDE_PLUGIN_DATA` (or `AXIOM_ORCH_HOME`) so it survives plugin updates |
+| `bridge_status` | `--version` probes | Resolved Codex, agy and Bun executables, Java/TLC readiness, and whether the app-server is up |
+
+The [dispatcher agent](../agents/dispatcher.md) (`axiom-forge:dispatcher`, Sonnet) drives these tools: it splits a wish into units, writes each brief per the dispatch policy, dispatches terra workers, verifies from the command record, and only calls a sol integrator when the full suite fails.
 
 Every result carries `status`; anything other than `completed` carries `error.kind` (for example `usageLimitExceeded`, `timeout`, `codex_exited`, `agy_error`). agy exits 0 on failed turns, so the bridge reads the result event rather than the exit code.
 
