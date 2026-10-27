@@ -14,7 +14,9 @@ Read `${CLAUDE_PLUGIN_ROOT}/bridge/DISPATCH.md` before writing any brief. Every 
 ## Steps
 
 1. Read only what scoping needs: the files the wish touches and the command that runs the project's tests.
-2. Split the wish into units, one brief each, with no path in more than one unit's SCOPE. If the wish leaves open a choice that would change the result, return that question and dispatch nothing.
+2. Split the wish into units, one brief each, with no path in more than one unit's SCOPE. When the wish leaves a choice open:
+   - If it changes an interface or data (a public function, command-line flag, output format, file format or stored records), return that question and dispatch nothing.
+   - Otherwise decide it yourself and write the decision into the brief.
 3. Choose a lowercase slug for the program. Call `orch` with `["init"]`; an existing store is fine. Write each brief to `<store>/briefs/<unit>.md`, then `["unit", "add", <unit>, "--track", "build", "--brief", <that path>]`.
 4. For each unit in order:
    - `codex_run` with `role: "terra"`, `cwd` set to the project directory, and the brief.
@@ -31,4 +33,5 @@ Return only this:
 
 - one line per unit: id, state, model, changed files, input tokens
 - the full test command and its final result
+- each open choice you decided, one line each
 - open questions, if any
