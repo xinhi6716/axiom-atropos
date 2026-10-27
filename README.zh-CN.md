@@ -8,7 +8,7 @@
 
 <p align="center"><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a></p>
 
-Axiom Forge 为 **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi** 整合 **65 个 skills**。你可以用它拆解研究问题、核对证据，或规划与检查代码修改。
+Axiom Forge 为 **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi** 整合 **66 个 skills**。你可以用它拆解研究问题、核对证据，或规划与检查代码修改。
 
 ## 你现在要做什么？
 
@@ -24,7 +24,7 @@ Axiom Forge 为 **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi*
 
 > 使用 poteto-mode 调查这个 bug。先读相关代码、复现失败，再说明要如何验证修复。
 
-需要哪个技能，再读哪个。不必一次加载全部 65 个。
+需要哪个技能，再读哪个。不必一次加载全部 66 个。
 
 ## 选择你的使用环境
 
@@ -67,7 +67,7 @@ curl -fsSL https://raw.githubusercontent.com/xinhi6716/axiom-forge/main/install.
 ## 仓库导览
 
 ```text
-skills/             65 个可重用工作流
+skills/             66 个可重用工作流
 pstack-resources/   Pstack 共享参考与宿主映射
 docs/               兼容性与维护文档
 scripts/            安装、验证与打包工具

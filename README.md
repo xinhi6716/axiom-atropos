@@ -8,7 +8,7 @@
 
 <p align="center"><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a></p>
 
-Axiom Forge brings **65 skills** into **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi**. Use them to work through a research question, review evidence, or plan and check a code change.
+Axiom Forge brings **66 skills** into **Codex · Claude Code · DeepSeek Harness · Antigravity · Pi**. Use them to work through a research question, review evidence, or plan and check a code change.
 
 ## What are you working on?
 

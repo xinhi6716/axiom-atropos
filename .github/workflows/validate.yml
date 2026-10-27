@@ -13,4 +13,5 @@ jobs:
       - run: python scripts/validate.py
       - run: python scripts/test_install.py
       - run: python scripts/test_package.py
+      - run: python bridge/test_bridge.py
       - run: python scripts/package.py

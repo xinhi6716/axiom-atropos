@@ -15,7 +15,7 @@
       "interface": {
         "displayName": "Axiom Forge",
         "shortDescription": "Evidence-driven research and verified engineering",
-        "longDescription": "65 skills: Pstack engineering workflows, five scientific research skills, RSI reasoning and a research-suite entry. Models and private instructions are not bundled.",
+        "longDescription": "66 skills: Pstack engineering workflows, five scientific research skills, RSI reasoning and a research-suite entry. Models and private instructions are not bundled.",
         "developerName": "xinhi6716",
         "category": "Productivity",
         "brandColor": "#FFAD47",
@@ -25,6 +25,16 @@
         "defaultPrompt": [
           "Use Axiom Forge to investigate this question and select only the research and engineering workflows it needs."
         ]
+      }
+    },
+    "com.anthropic": {
+      "mcpServers": {
+        "axiom-bridge": {
+          "command": "python",
+          "args": [
+            "${CLAUDE_PLUGIN_ROOT}/bridge/server.py"
+          ]
+        }
       }
     }
   }
