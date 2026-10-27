@@ -1,23 +1,15 @@
 """Run Pstack's orch bookkeeping CLI under Bun with a per-project store outside the plugin cache."""
-import os
-import re
 import subprocess
 from pathlib import Path
 
-from procs import BridgeError
+from procs import BridgeError, data_home, require_slug
 
 ORCH_SCRIPT = Path(__file__).resolve().parents[1] / 'skills' / 'poteto-mode' / 'scripts' / 'orch' / 'orch.ts'
-PROJECT = re.compile(r'[a-z0-9][a-z0-9-]{0,63}')
 
 
 def store_for(project):
-    if not PROJECT.fullmatch(project or ''):
-        raise BridgeError('invalid_argument', 'project must be a lowercase slug: letters, digits and hyphens')
-    # The plugin root changes on every update; CLAUDE_PLUGIN_DATA survives it.
-    home = os.environ.get('AXIOM_ORCH_HOME') or os.environ.get('CLAUDE_PLUGIN_DATA')
-    if not home:
-        raise BridgeError('config', 'neither AXIOM_ORCH_HOME nor CLAUDE_PLUGIN_DATA is set, so there is no place for orch stores')
-    return Path(home) / 'orchestrate' / project
+    require_slug('project', project)
+    return data_home() / 'orchestrate' / project
 
 
 def run(command, project, args, timeout_s=120):

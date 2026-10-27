@@ -13,6 +13,7 @@ sys.path.insert(0, str(HERE))
 
 import agy_print  # noqa: E402
 import orch_cli  # noqa: E402
+from memory import Memory, query_terms  # noqa: E402
 from codex_app import CodexAppServer  # noqa: E402
 from procs import BridgeError, resolve_command  # noqa: E402
 
@@ -155,8 +156,8 @@ class OrchTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        os.environ['AXIOM_ORCH_HOME'] = self.temp.name
-        self.addCleanup(os.environ.pop, 'AXIOM_ORCH_HOME')
+        os.environ['AXIOM_DATA_HOME'] = self.temp.name
+        self.addCleanup(os.environ.pop, 'AXIOM_DATA_HOME')
 
     def test_store_and_args_reach_orch(self):
         result = orch_cli.run(FAKE_BUN, 'todo-stats', ['unit', 'add', 'u1'])
@@ -175,12 +176,12 @@ class OrchTests(unittest.TestCase):
                 orch_cli.run(FAKE_BUN, project, args)
 
     def test_store_location_must_be_configured(self):
-        os.environ.pop('AXIOM_ORCH_HOME')
+        os.environ.pop('AXIOM_DATA_HOME')
         os.environ.pop('CLAUDE_PLUGIN_DATA', None)
         with self.assertRaises(BridgeError) as caught:
             orch_cli.store_for('p')
         self.assertEqual(caught.exception.kind, 'config')
-        os.environ['AXIOM_ORCH_HOME'] = self.temp.name
+        os.environ['AXIOM_DATA_HOME'] = self.temp.name
 
     @unittest.skipUnless(shutil.which('bun'), 'bun is not installed')
     def test_real_orch_round_trip(self):
@@ -189,6 +190,60 @@ class OrchTests(unittest.TestCase):
             self.assertEqual(orch_cli.run(bun, 'round-trip', args)['status'], 'completed', args)
         listed = orch_cli.run(bun, 'round-trip', ['unit', 'list'])
         self.assertIn('u1', listed['stdout'])
+
+
+class MemoryTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.home, self.project = Path(self.temp.name, 'data'), Path(self.temp.name, 'todo-app')
+        self.project.mkdir()
+        (self.project / 'todo.py').write_text('def stats(items): ...\n', encoding='utf-8')
+        self.memory = Memory(self.home)
+        self.stats = self.memory.record('todo-app', 'stats-fn', 'todo.stats', 'stats(items) 回傳已完成數與總數 {"done", "total"}',
+                                        'Signature: stats(items) -> dict. VERIFY: python -m unittest test_todo', ['stats'], ['todo.py'], str(self.project),
+                                        '幫 todo 加統計功能')['id']
+        self.memory.record('todo-app', 'stats-cli', 'cli --stats flag', 'Prints done/total after --add/--complete are saved',
+                           'argparse store_true; output like 2/5', ['main'], [], str(self.project), '幫 todo 加統計功能')
+        self.memory.record('other-app', 'export', 'CSV export', 'Writes rows to CSV', 'csv.writer with header', [], [], str(self.project), '匯出報表')
+
+    def test_chinese_and_english_queries_find_entries(self):
+        self.assertEqual(query_terms('統計功能 stats'), ['stats', '統計', '計功', '功能'])
+        self.assertEqual([e['title'] for e in self.memory.search('已完成 總數')['entries']][:1], ['todo.stats'])
+        self.assertEqual(self.memory.search('--stats flag')['entries'][0]['title'], 'cli --stats flag')
+
+    def test_wish_text_makes_english_entries_findable_in_chinese(self):
+        self.assertEqual({e['title'] for e in self.memory.search('統計')['entries']}, {'todo.stats', 'cli --stats flag'})
+        self.assertEqual([e['title'] for e in self.memory.search('匯出')['entries']], ['CSV export'])
+
+    def test_project_filter_and_misses(self):
+        self.assertEqual([e['title'] for e in self.memory.search('csv', project='todo-app')['entries']], [])
+        self.assertEqual([e['title'] for e in self.memory.search('csv')['entries']], ['CSV export'])
+        with self.assertRaises(BridgeError):
+            self.memory.search('?!')
+
+    def test_entries_go_stale_when_recorded_files_change(self):
+        self.assertFalse(self.memory.get(self.stats)['entry']['stale'])
+        (self.project / 'todo.py').write_text('def stats(items): return {}\n', encoding='utf-8')
+        self.assertTrue(self.memory.get(self.stats)['entry']['stale'])
+        self.assertTrue(next(e for e in self.memory.search('stats')['entries'] if e['id'] == self.stats)['stale'])
+
+    def test_digest_appends_lines(self):
+        self.assertEqual(self.memory.digest('todo-app')['digest'], '')
+        self.memory.digest('todo-app', add='統計功能  done:\n stats-fn, stats-cli')
+        lines = self.memory.digest('todo-app')['digest'].splitlines()
+        self.assertEqual(len(lines), 1)
+        self.assertTrue(lines[0].endswith('統計功能 done: stats-fn, stats-cli'))
+
+    def test_bad_input_is_explicit(self):
+        cases = [dict(project='Bad Slug'), dict(title=' '), dict(wish=''), dict(project_dir='relative'), dict(files=['missing.py'])]
+        for override in cases:
+            args = dict(project='p', unit='u', title='t', summary='s', body='b', symbols=[], files=[], project_dir=str(self.project), wish='w')
+            args.update(override)
+            with self.subTest(override=override), self.assertRaises(BridgeError):
+                self.memory.record(**args)
+        with self.assertRaises(BridgeError):
+            self.memory.get(999)
 
 
 class ResolveCommandTests(unittest.TestCase):
@@ -210,7 +265,7 @@ class McpStdioTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         env = {**os.environ, 'AXIOM_CODEX_CMD': json.dumps(FAKE_CODEX), 'AXIOM_AGY_CMD': json.dumps(FAKE_AGY),
-               'AXIOM_BUN_CMD': json.dumps(FAKE_BUN), 'AXIOM_ORCH_HOME': self.temp.name}
+               'AXIOM_BUN_CMD': json.dumps(FAKE_BUN), 'AXIOM_DATA_HOME': self.temp.name}
         self.proc = subprocess.Popen([sys.executable, '-I', str(HERE / 'server.py')], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                      text=True, encoding='utf-8', env=env)
         self.addCleanup(self.shutdown)
@@ -234,7 +289,13 @@ class McpStdioTests(unittest.TestCase):
         self.assertEqual(init['result']['serverInfo']['name'], 'axiom-bridge')
         self.proc.stdin.write(json.dumps({'jsonrpc': '2.0', 'method': 'notifications/initialized'}) + '\n')
         names = [tool['name'] for tool in self.rpc('tools/list')['result']['tools']]
-        self.assertEqual(names, ['codex_run', 'gemini_preview', 'orch', 'bridge_status'])
+        self.assertEqual(names, ['codex_run', 'gemini_preview', 'orch', 'memory_record', 'memory_search', 'memory_get',
+                                 'memory_digest', 'bridge_status'])
+        recorded = self.rpc('tools/call', {'name': 'memory_record', 'arguments': {
+            'project': 'demo', 'project_dir': self.temp.name, 'unit': 'u1', 'title': 'slugify', 'summary': '把標題轉成網址代稱',
+            'body': 'slugify(text) -> str', 'wish': 'add slugify'}})['result']['structuredContent']
+        found = self.rpc('tools/call', {'name': 'memory_search', 'arguments': {'query': '網址代稱'}})['result']['structuredContent']
+        self.assertEqual(found['entries'][0]['id'], recorded['id'])
 
         done = self.rpc('tools/call', {'name': 'codex_run', 'arguments': {'brief': 'GOAL x', 'cwd': self.temp.name, 'role': 'terra'}})['result']
         self.assertFalse(done['isError'])

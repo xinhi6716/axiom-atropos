@@ -6,10 +6,13 @@ A dependency-free MCP stdio server that lets Claude Code drive Codex and Antigra
 | --- | --- | --- |
 | `codex_run` | one long-lived `codex app-server` (JSON-RPC over stdio), one ephemeral thread per call | Send a brief to a `terra` worker or a `sol` integrator; the role resolves to a model the signed-in account lists |
 | `gemini_preview` | `agy` print mode, NDJSON in and out | Rewrite worker reports into plain language: what was done, how it turned out, what the user must decide. Runs in an empty directory unless given `cwd`; plan mode is avoided because it answers with a plan document and a question |
-| `orch` | Pstack's `orch.ts` under Bun | Units, inbox, gates and status for one program; the store lives under `CLAUDE_PLUGIN_DATA` (or `AXIOM_ORCH_HOME`) so it survives plugin updates |
+| `orch` | Pstack's `orch.ts` under Bun | Units, inbox, gates and status for one program; the store lives under `CLAUDE_PLUGIN_DATA` (or `AXIOM_DATA_HOME`) so it survives plugin updates |
+| `memory_record`, `memory_search`, `memory_get`, `memory_digest` | SQLite FTS5 (trigram) in the same data directory | Long-run memory: verified units distilled for later briefs, and a one-line-per-wish history per project. Entries index the wish verbatim, so English entries are found by Chinese queries; CJK query runs are split into bigrams. Each entry hashes its files and reports `stale` once they change |
 | `bridge_status` | `--version` probes | Resolved Codex, agy and Bun executables, Java/TLC readiness, and whether the app-server is up |
 
-The [dispatcher agent](../agents/dispatcher.md) (`axiom-forge:dispatcher`, Sonnet) drives these tools: it splits a wish into units, writes each brief per the dispatch policy, dispatches terra workers, verifies from the command record, and only calls a sol integrator when the full suite fails.
+[`/god-mode <wish>`](../skills/god-mode/SKILL.md) runs the whole pipeline from the main conversation. The [dispatcher agent](../agents/dispatcher.md) (`axiom-forge:dispatcher`, Sonnet) splits the wish into units, pastes relevant memory into each brief, dispatches terra workers, verifies from the command record, and only calls a sol integrator when the full suite fails. The [memory keeper](../agents/memory-keeper.md) (`axiom-forge:memory-keeper`, Haiku) then records what later units can reuse.
+
+On Windows, the Codex sandbox cannot start Microsoft Store (MSIX) apps: launching the Store builds of `pwsh` or `python` fails with `CreateProcessAsUserW failed: 5` every time, while System32 `powershell.exe` and `cmd.exe` work. Codex prefers `pwsh` when one is on PATH, so a machine whose only PowerShell 7 is the Store build will see workers unable to run VERIFY. The dispatcher reruns VERIFY itself, so results stay trustworthy; installing PowerShell 7 from its MSI removes the detour.
 
 Every result carries `status`; anything other than `completed` carries `error.kind` (for example `usageLimitExceeded`, `timeout`, `codex_exited`, `agy_error`). agy exits 0 on failed turns, so the bridge reads the result event rather than the exit code.
 

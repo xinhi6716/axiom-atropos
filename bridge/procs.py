@@ -1,8 +1,12 @@
 """Resolve host CLIs and stop their process trees."""
 import json
 import os
+import re
 import shutil
 import subprocess
+from pathlib import Path
+
+SLUG = re.compile(r'[a-z0-9][a-z0-9-]{0,63}')
 
 
 class BridgeError(Exception):
@@ -46,6 +50,19 @@ def kill_tree(proc):
         proc.wait(timeout=10)
     except subprocess.TimeoutExpired:
         pass
+
+
+def require_slug(name, value):
+    if not SLUG.fullmatch(value or ''):
+        raise BridgeError('invalid_argument', f'{name} must be a lowercase slug: letters, digits and hyphens')
+
+
+def data_home():
+    """Where orch stores and memory live. The plugin root changes on every update; CLAUDE_PLUGIN_DATA survives it."""
+    home = os.environ.get('AXIOM_DATA_HOME') or os.environ.get('CLAUDE_PLUGIN_DATA')
+    if not home:
+        raise BridgeError('config', 'neither AXIOM_DATA_HOME nor CLAUDE_PLUGIN_DATA is set, so there is nowhere to keep state')
+    return Path(home)
 
 
 def require_directory(cwd):

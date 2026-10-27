@@ -12,7 +12,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import agy_print  # noqa: E402
 import orch_cli  # noqa: E402
 from codex_app import SANDBOXES, CodexAppServer  # noqa: E402
-from procs import BridgeError, resolve_command  # noqa: E402
+from memory import Memory  # noqa: E402
+from procs import BridgeError, data_home, resolve_command  # noqa: E402
 
 SERVER_INFO = {'name': 'axiom-bridge', 'version': '0.1.0'}
 ROLES = ('terra', 'sol')
@@ -81,6 +82,54 @@ TOOLS = [
         },
     },
     {
+        'name': 'memory_record',
+        'description': ('Store one verified unit as long-run memory: what it built, its interface, and what a later worker reusing '
+                        'it must know. Files are hashed so later searches can flag the entry stale once they change.'),
+        'inputSchema': {
+            'type': 'object',
+            'properties': {
+                'project': {'type': 'string', 'description': 'Program slug, the same one orch uses.'},
+                'project_dir': {'type': 'string', 'description': 'Absolute project directory; files are relative to it.'},
+                'unit': {'type': 'string'},
+                'title': {'type': 'string', 'description': 'The module, function or feature, as a later brief would name it.'},
+                'summary': {'type': 'string', 'description': 'One or two lines: what it does and its interface.'},
+                'body': {'type': 'string', 'description': 'What a reuser needs: signatures, behaviour decisions, verify command, pitfalls met.'},
+                'symbols': {'type': 'array', 'items': {'type': 'string'}},
+                'files': {'type': 'array', 'items': {'type': 'string'}},
+                'wish': {'type': 'string', 'description': "The wish verbatim, in the user's words; indexed so searches in their language find the entry."},
+            },
+            'required': ['project', 'project_dir', 'unit', 'title', 'summary', 'body', 'wish'],
+        },
+    },
+    {
+        'name': 'memory_search',
+        'description': ('Find earlier units related to `query` (English words and Chinese both match). Returns titles and '
+                        'summaries only, with `stale` true when a recorded file has changed since; fetch a body with memory_get.'),
+        'inputSchema': {
+            'type': 'object',
+            'properties': {
+                'query': {'type': 'string'},
+                'project': {'type': 'string', 'description': 'Limit to one program; omit to search every project.'},
+                'limit': {'type': 'integer', 'minimum': 1, 'maximum': 20, 'default': 5},
+            },
+            'required': ['query'],
+        },
+    },
+    {
+        'name': 'memory_get',
+        'description': 'Return one memory entry in full, with its files and whether it is stale.',
+        'inputSchema': {'type': 'object', 'properties': {'id': {'type': 'integer'}}, 'required': ['id']},
+    },
+    {
+        'name': 'memory_digest',
+        'description': ("Read a project's short history of wishes and outcomes, one line each; pass `add` to append a line first."),
+        'inputSchema': {
+            'type': 'object',
+            'properties': {'project': {'type': 'string'}, 'add': {'type': 'string', 'description': 'One line: the wish, the outcome, memory ids.'}},
+            'required': ['project'],
+        },
+    },
+    {
         'name': 'bridge_status',
         'description': ('Report which Codex, agy and Bun executables the bridge resolved and their versions, whether Java and '
                         'tla2tools.jar are configured for statechart, and whether the Codex app-server is running.'),
@@ -117,6 +166,17 @@ class Bridge:
             return agy_print.run(
                 resolve_command('AXIOM_AGY_CMD', 'agy'), args.get('prompt'), args.get('cwd'),
                 args.get('model') or DEFAULT_AGY_MODEL, args.get('json_schema'), int(args.get('timeout_s') or 600))
+        if name.startswith('memory_'):
+            memory = Memory(data_home())
+            if name == 'memory_record':
+                return memory.record(args.get('project'), args.get('unit'), args.get('title'), args.get('summary'), args.get('body'),
+                                     args.get('symbols'), args.get('files'), args.get('project_dir'), args.get('wish'))
+            if name == 'memory_search':
+                return memory.search(args.get('query'), args.get('project'), args.get('limit') or 5)
+            if name == 'memory_get':
+                return memory.get(args.get('id'))
+            if name == 'memory_digest':
+                return memory.digest(args.get('project'), args.get('add'))
         if name == 'orch':
             return orch_cli.run(resolve_command('AXIOM_BUN_CMD', 'bun'), args.get('project'), args.get('args'))
         if name == 'bridge_status':
