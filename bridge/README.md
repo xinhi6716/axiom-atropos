@@ -1,53 +1,70 @@
-# Axiom bridge
+# Axiom Atropos bridge
 
-[Axiom Atropos](../docs/naming-transition.md) · [English overview](../README.md) · [繁體中文總覽](../README.zh-TW.md) · [简体中文概览](../README.zh-CN.md)
+Overview: [English](../README.md) · [繁體中文](../README.zh-TW.md) · [简体中文](../README.zh-CN.md)
 
-A dependency-free MCP stdio server that lets Claude Code drive Codex and Antigravity (agy) through typed tools instead of ad-hoc shell calls. The Claude plugin manifest registers it as `axiom-bridge`.
+A dependency-free MCP stdio server for Claude Code to call Codex and Antigravity (`agy`) through typed tools. The Claude plugin registers it as **`axiom-bridge`**. The bridge needs **Python 3.11+** and the relevant backend CLIs; installing the skill pack does not supply them.
 
-| Tool | Backend | Use |
-| --- | --- | --- |
-| `codex_run` | one long-lived `codex app-server` (JSON-RPC over stdio), one ephemeral thread per call | Send a brief to a `terra` worker or a `sol` integrator; the role resolves to a model the signed-in account lists |
-| `gemini_preview` | `agy` print mode, NDJSON in and out | Rewrite worker reports into plain language: what was done, how it turned out, what the user must decide. Runs in an empty directory unless given `cwd`; plan mode is avoided because it answers with a plan document and a question |
-| `orch` | Pstack's `orch.ts` under Bun | Units, inbox, gates and status for one program; the store lives under `CLAUDE_PLUGIN_DATA` (or `AXIOM_DATA_HOME`) so it survives plugin updates |
-| `memory_record`, `memory_search`, `memory_get`, `memory_digest` | SQLite FTS5 (trigram) in the same data directory | Long-run memory: verified units distilled for later briefs, and a one-line-per-wish history per project. Entries index the wish verbatim, so English entries are found by Chinese queries; CJK query runs are split into bigrams. Each entry hashes its files and reports `stale` once they change |
-| `bridge_status` | `--version` probes | Resolved Codex, agy and Bun executables, Java/TLC readiness, and whether the app-server is up |
+[Tools](#tools) · [Contracts](#contracts) · [Configuration](#configuration) · [Tests](#tests)
 
-[`/god-mode <wish>`](../skills/god-mode/SKILL.md) runs the whole pipeline from the main conversation. The [dispatcher agent](../agents/dispatcher.md) (`axiom-forge:dispatcher`, Sonnet) splits the wish into units, pastes relevant memory into each brief, dispatches terra workers, verifies from the command record, and only calls a sol integrator when the full suite fails. The [memory keeper](../agents/memory-keeper.md) (`axiom-forge:memory-keeper`, Haiku) then records what later units can reuse.
+## Tools
 
-On Windows, the Codex sandbox cannot start Microsoft Store (MSIX) apps: launching the Store builds of `pwsh` or `python` directly fails with `CreateProcessAsUserW failed: 5` every time, while System32 `powershell.exe` and `cmd.exe` work. Codex runs worker commands through `pwsh` when one is on PATH, so a machine whose only PowerShell 7 is the Store build leaves workers unable to run VERIFY; the dispatcher then reruns it, so results stay trustworthy.
+- **`codex_run`** sends a brief to a `terra` worker or `sol` integrator. One long-lived `codex app-server` uses JSON-RPC over stdio; each call gets an ephemeral thread. Roles resolve to models listed by the signed-in account.
+- **`gemini_preview`** uses `agy` print mode with NDJSON to turn worker reports into plain language. It runs in an empty directory unless given `cwd`. It avoids plan mode, which responds with a plan and a question.
+- **`orch`** calls Pstack’s `orch.ts` through Bun for units, inbox, gates and program status. Its store lives under `CLAUDE_PLUGIN_DATA` or `AXIOM_DATA_HOME`, outside plugin updates.
+- **`memory_record`, `memory_search`, `memory_get`, `memory_digest`** use SQLite FTS5 trigram support in the same data directory. They retain reusable work from verified units and a one-line-per-wish project history. Search matches stored terms, including the original wish; CJK runs are split into bigrams. This is lexical retrieval, not translation. Referenced-file hashes let results report `stale` when files change.
+- **`bridge_status`** probes executable versions, Java/TLC readiness and app-server state.
 
-The fix is PowerShell 7 from its MSI. winget installs the MSIX build by default and refuses to replace a Store install with an MSI, so remove the Store package first, then:
+Every result includes `status`. A non-`completed` result includes `error.kind`, such as `usageLimitExceeded`, `timeout`, `codex_exited` or `agy_error`. Because `agy` can exit 0 on failed turns, the bridge checks its result event rather than trusting the process exit code.
+
+### Coordinated work
+
+[`/god-mode <wish>`](../skills/god-mode/SKILL.md) starts the workflow from the main conversation. The [dispatcher](../agents/dispatcher.md), **`axiom-forge:dispatcher`** (Sonnet), writes unit briefs, includes relevant memory, sends work to `terra` and verifies command records. A `sol` integrator is used only when the full suite fails. The [memory keeper](../agents/memory-keeper.md), **`axiom-forge:memory-keeper`** (Haiku), records reusable work afterward.
+
+These existing `axiom-forge` identifiers are retained for compatibility. [Naming details](../docs/naming-transition.md).
+
+## Contracts
+
+- A `brief` follows [GOAL, SCOPE and VERIFY](DISPATCH.md), agreed before dispatch. The worker sees the brief, not the parent conversation. Map its report to `orch inbox push` like any other worker completion.
+- `cwd` must be an existing absolute directory. Give each writer its own worktree.
+- `sandbox` is `read-only` or `workspace-write`; `danger-full-access` is not exposed. `approvalPolicy` is fixed to `never`. Unexpected approval requests are refused and listed in `refused_requests`.
+- Codex threads are ephemeral; workers do not retain memory between calls.
+- Lean mode is on by default and changes only the worker thread. It disables enabled plugins and configured MCP servers, plus the apps connector, goals, skills catalog, personality section and web search. `web_search: true` retains search; `keep_plugins` retains named plugins. The report lists disabled items, MCP servers that actually started and token `usage`.
+- Available models depend on the signed-in account; `model/list` is authoritative. Provider errors such as `model_not_found` are reported even when Codex groups them under `other`.
+
+<details>
+<summary><strong>Recorded lean-mode comparison</strong></summary>
+
+The repository records these two comparisons using `gpt-5.6-terra` at low effort. They describe those runs, not a general performance guarantee.
+
+| Brief | Inherited config | Lean |
+|---|---|---|
+| One-word reply | 19,863 input tokens | 8,457 |
+| Write a module and tests, then run them | 149,414 input tokens; failed after a Pstack detour and sandbox block | 29,084; passed |
+
+Codex’s base instructions (about 3.5k tokens) remain because they describe shell and patch tools.
+
+</details>
+
+## Configuration
+
+The server launches with `python` and needs Python 3.11+. It resolves `codex` and `agy` from `PATH`; override a command with a JSON array, for example `AXIOM_CODEX_CMD='["/opt/codex/bin/codex"]'`. Missing executables return `not_installed`.
+
+### Windows PowerShell
+
+Codex’s Windows sandbox cannot directly launch Microsoft Store (MSIX) `pwsh` or `python`; the recorded failure is `CreateProcessAsUserW failed: 5`. System32 `powershell.exe` and `cmd.exe` work. If PATH contains only Store PowerShell 7, workers cannot run VERIFY through it; inspect the dispatcher’s verification result rather than treating the worker’s completion as success.
+
+Use PowerShell 7’s MSI build. The recorded workaround removes the Store package first because winget will not replace it with an MSI, then installs:
 
 ```powershell
 winget install --id Microsoft.PowerShell --exact --installer-type wix
 ```
 
-With the MSI `pwsh`, a Store-installed Python works when invoked through the shell (10 of 10 sandboxed `python -m unittest` runs passed), so Python itself does not need replacing. Restart Claude Code afterwards so the bridge's Codex app-server sees the new PATH.
-
-Every result carries `status`; anything other than `completed` carries `error.kind` (for example `usageLimitExceeded`, `timeout`, `codex_exited`, `agy_error`). agy exits 0 on failed turns, so the bridge reads the result event rather than the exit code.
-
-## Contracts
-
-- `brief` follows the [dispatch policy](DISPATCH.md): GOAL, SCOPE and VERIFY, decided before dispatch. The worker sees nothing else. Map a returned report onto `orch inbox push` the same way as any other worker completion.
-- `cwd` must be an existing absolute directory; give each writer its own worktree.
-- `sandbox` is `read-only` or `workspace-write`. The bridge never exposes `danger-full-access`, and `approvalPolicy` is fixed to `never`; stray approval requests are refused and listed in `refused_requests`.
-- Codex threads are ephemeral, so workers keep no memory between calls.
-- `lean` (default on) changes that thread only: it asks the app-server which plugins and configured MCP servers are enabled and turns them all off, along with the apps connector, goals, the skills catalog, the personality section and the web search tool (`web_search: true` keeps it). `keep_plugins` exempts named plugins. The report lists what was disabled, which MCP servers actually started, and the thread's token `usage`.
-
-  Measured with `gpt-5.6-terra` at low effort:
-
-  | Brief | Inherited config | Lean |
-  | --- | --- | --- |
-  | One-word reply | 19,863 input tokens | 8,457 |
-  | Write a module and its tests, then run them | 149,414 input tokens, FAIL (detoured into Pstack skills, then sandbox-blocked) | 29,084, PASS |
-
-  Codex's base instructions (~3.5k tokens) stay in place because they teach the shell and patch tools.
-- Upstream API rejections that Codex labels `other` are reported by their provider code, such as `model_not_found`. Available models depend on the signed-in account; `model/list` is the source of truth.
-
-## Configuration
-
-The bridge resolves `codex` and `agy` from `PATH`. Override either with a JSON array, e.g. `AXIOM_CODEX_CMD='["/opt/codex/bin/codex"]'`. A missing executable fails the call with `not_installed`. The server is launched with `python`; Python 3.11 or newer is required.
+The existing record reports 10 of 10 sandboxed `python -m unittest` runs passing with Store Python invoked through MSI `pwsh`; it did not require replacing Python. Restart Claude Code after changing PATH so the app-server receives the new environment.
 
 ## Tests
 
-`python bridge/test_bridge.py` runs the backends and the MCP session against scripted stand-ins in `fakes/`.
+```sh
+python bridge/test_bridge.py
+```
+
+This checks backends and the MCP session against scripted stand-ins in [`fakes/`](fakes/). It does not establish live-model quality or universal host compatibility. See the [host compatibility table](../docs/compatibility.md).
