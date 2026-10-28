@@ -5,43 +5,19 @@
   <img src="assets/readme-cover.svg" width="1200" alt="Axiom Atropos. Research and engineering skills in the Moirai series." />
 </picture></p>
 
-<p align="center"><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a></p>
-
 <h1 align="center">Axiom Atropos</h1>
 
-<p align="center"><a href="#begin">Choose the work</a> · <a href="#install">Install</a> · <a href="#evidence">Follow the evidence</a> · <a href="#boundaries">Know the boundaries</a></p>
+<p align="center"><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a></p>
 
-Axiom Atropos brings **66 research and engineering skills** to the agent you already use. Start with a question or a code change, load the workflows it needs, and review the result.
+<p align="center"><a href="#install">Install</a> · <a href="#begin">Skills</a> · <a href="#boundaries">Status</a></p>
 
-**Codex · Claude Code · DeepSeek Harness · Antigravity · Pi**
+**66 research and engineering workflows** for your agent. Choose a skill, define its checks and review the evidence.
 
-<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/atropos-threshold-dark.svg" /><img src="assets/atropos-threshold.svg" width="1200" alt="" /></picture></p>
-
-<a id="begin"></a>
-<a id="what-are-you-working-on"></a>
-
-## I · Choose the work
-
-### A research question
-
-Start with [research-suite](skills/research-suite/SKILL.md). It selects workflows for literature searches, hypothesis design, statistics and evidence critique.
-
-> Use Axiom Atropos to investigate this question. Start with research-suite and select the skills the problem needs.
-
-### A code change
-
-Start with [poteto-mode](skills/poteto-mode/SKILL.md). It routes engineering work through Pstack planning, implementation, review and verification.
-
-> Use poteto-mode to investigate this bug. Read the relevant code, reproduce the failure, and explain how you will check the fix.
-
-Pick the skills the task needs. You do not need to load all 66.
-
-<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/atropos-threshold-dark.svg" /><img src="assets/atropos-threshold.svg" width="1200" alt="" /></picture></p>
 
 <a id="install"></a>
 <a id="install-for-your-host"></a>
 
-## II · Install
+## Installation
 
 Requires **Python 3.10+**. Codex and Claude Code also need their own CLI.
 
@@ -57,27 +33,45 @@ Requires **Python 3.10+**. Codex and Claude Code also need their own CLI.
 curl -fsSL https://raw.githubusercontent.com/xinhi6716/axiom-forge/main/install.sh | sh -s -- --host codex
 ```
 
-Choose your host by replacing `codex`:
+The install commands and plugin IDs still use **`axiom-forge`** for compatibility. An installed host may show **Axiom Forge**; no reinstall or cache migration is needed for the name change. [Naming details](docs/naming-transition.md).
+
+These commands download and execute an installer from `main`. Inspect the [shell](install.sh), [PowerShell](install.ps1) and [Python adapter](scripts/install.py) before running them.
+
+<details>
+<summary><strong>Choose a host or update</strong></summary>
+
+Replace `codex` with your host selector:
 
 | Host | Selector | Integration |
 |---|---|---|
 | Codex | `codex` | Native plugin |
 | Claude Code | `claude` | Native plugin |
-| DeepSeek Harness | `deepseek` | Skills |
-| Antigravity | `antigravity` | Skills |
-| Pi | `pi` | Skills |
+| DeepSeek Harness | `deepseek` | Skills directory |
+| Antigravity | `antigravity` | Skills directory |
+| Pi | `pi` | Skills directory |
 
-**Update:** repeat the same command with `-Update` on Windows or `--update` on macOS/Linux. Restart or reload the host afterward.
+To update, repeat the command with `-Update` on Windows or `--update` on macOS/Linux. Restart or reload the host afterward. [Native plugin commands and compatibility](docs/compatibility.md).
 
-These commands download and run an installer from `main`. Read [the shell installer](install.sh), [the PowerShell installer](install.ps1) and [the Python adapter](scripts/install.py) before running them.
+</details>
 
-<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/atropos-threshold-dark.svg" /><img src="assets/atropos-threshold.svg" width="1200" alt="" /></picture></p>
+<a id="begin"></a>
+<a id="what-are-you-working-on"></a>
+
+## Choose a workflow
+
+**Research:** [research-suite](skills/research-suite/SKILL.md) routes a question to literature search, hypothesis design, statistical analysis and evidence critique.
+
+> Use research-suite to investigate this question. Choose the skills it needs and state what evidence would change the conclusion.
+
+**Engineering:** [poteto-mode](skills/poteto-mode/SKILL.md) brings Pstack planning, implementation, review and verification to a code change.
+
+> Use poteto-mode to investigate this bug. Reproduce the failure and explain how you will check the fix.
+
+Load the skills you need, rather than all 66. Individual research skills can also be used directly; not every task needs a coordinator.
 
 <a id="evidence"></a>
-
-## III · Follow the evidence
-
-Choose a workflow, make its checks explicit, and keep the result open to review. The diagram describes how to use the pack, not an enforced runtime guarantee.
+<details>
+<summary><strong>Workflow and advanced tools</strong></summary>
 
 <p align="center"><picture>
   <source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/atropos-process-dark-mobile.svg" />
@@ -86,40 +80,40 @@ Choose a workflow, make its checks explicit, and keep the result open to review.
   <img src="assets/atropos-process.svg" width="1200" alt="Suggested workflow: choose the relevant skill, work with explicit checks, inspect the evidence, review the result." />
 </picture></p>
 
-<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/atropos-threshold-dark.svg" /><img src="assets/atropos-threshold.svg" width="1200" alt="" /></picture></p>
+The diagram is a usage guide, not an enforced runtime guarantee. The existing [bridge](bridge/README.md) and [agents](agents/) support coordinated work in compatible hosts; the bridge needs Python 3.11+ and its backend CLIs. Consult its requirements before use.
+
+</details>
 
 <a id="boundaries"></a>
 <a id="before-you-rely-on-it"></a>
 
-## IV · Know the boundaries
+## Status and limits
 
-- **Skills are instructions and supporting scripts.** Installation does not bundle a Python environment, third-party MCP servers, model weights or credentials. RSI is included as a research method, not a deployed model or runtime.
+- Skills contain instructions and supporting scripts. Installation does not supply Python, third-party MCP servers, model weights or credentials. RSI is a research method, not a deployed model or self-evolution runtime.
+- Host verification differs. Antigravity and Pi have installer tests, not model-session verification. See the [compatibility table](docs/compatibility.md).
+- Directory installs stop on same-name conflicts or modified owned content. Native plugin managers own their caches. Personal instructions, model settings and API keys are not edited. Pi’s shared skills directory may also be discovered by other applications.
 
-- **Host support has different levels of verification.** Antigravity and Pi have installer tests, but no model-session verification. Files landing in the right directory does not establish scientific quality. See [the full compatibility table](docs/compatibility.md).
-
-- **Directory installs stop on same-name conflicts or modified owned content.** Codex and Claude Code use their native plugin managers, which manage their own caches. Personal instructions, model settings and API keys are not edited. Pi uses a shared skills directory that other applications may also discover.
-
-**Axiom Lachesis remains planned.** This pack contains its existing skills, bridge and supporting agent integrations; it does not bundle that separate coordinator.
+**Lachesis remains planned.** It is a separate coordinator, not a feature bundled into this pack.
 
 <a id="inside-the-repository"></a>
 <details>
-<summary><strong>Repository guide & compatibility</strong></summary>
-
-Axiom Atropos is the Moirai skill pack, formerly Axiom Forge. The repository is now `xinhi6716/axiom-atropos`; existing plugin IDs, host labels and install commands retain `axiom-forge` for compatibility. [Naming & compatibility](docs/naming-transition.md).
+<summary><strong>Repository guide</strong></summary>
 
 ```text
 skills/             66 reusable workflows
 pstack-resources/   Shared Pstack references and host mappings
+bridge/             Existing tool bridge and tests
 docs/               Compatibility and maintenance
 scripts/            Installer, validation and packaging
 licenses/           Upstream copyright and MIT notices
 ```
 
-[Compatibility & verification](docs/compatibility.md) · [Maintenance](docs/maintaining.md) · [Releases](https://github.com/xinhi6716/axiom-atropos/releases)
-
+[Maintenance](docs/maintaining.md) · [Source pins](sources.json) · [Releases](https://github.com/xinhi6716/axiom-atropos/releases)
 
 </details>
 
 ---
 
-**[MIT License](LICENSE).** Built on Pstack by Lauren Tan, codex-research by LIU-31415 and scientific skills by K-Dense. An independent integration; see [credits and licenses](licenses/README.md).
+[MIT License](LICENSE) · [Credits and licenses](licenses/README.md) · [Asset notices](assets/ASSET_NOTICES.txt)
+
+An independent integration of Lauren Tan’s Pstack, LIU-31415’s codex-research and K-Dense scientific skills. Atropos is the Moirai skill pack within Axiom.

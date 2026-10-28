@@ -1,16 +1,16 @@
-# 來源與授權
+# Credits and licenses
 
-Axiom Forge is licensed under the [MIT License](../LICENSE). Bundled upstream files retain their original copyright and MIT notices listed below.
+Overview: [English](../README.md) · [繁體中文](../README.zh-TW.md) · [简体中文](../README.zh-CN.md)
 
-此套件是個人整合，並非 Pstack、科研技能或 RSI 論文作者的官方聯合發行。來源 commit 與技能清單見 sources.json。
+Axiom Atropos, formerly Axiom Forge, is licensed under the [MIT License](../LICENSE). Bundled upstream files retain their copyright and MIT notices. Exact source commits and the skill inventory are recorded in [sources.json](../sources.json).
 
-| 內容 | 來源與授權 |
+| Component | Source and notice |
 |---|---|
-| 58 個 Pstack skills 與參考資源 | cursor/plugins 的 pstack；Lauren Tan，MIT，完整文字見 pstack-MIT.txt |
-| codex-research | LIU-31415/codex-research；MIT，完整文字見 codex-research-MIT.txt |
-| literature-review、hypothesis-generation、statistical-analysis、scientific-critical-thinking | K-Dense-AI/scientific-agent-skills；K-Dense Inc.，MIT，完整文字見 scientific-agent-skills-MIT.txt |
-| rsi-anything | 個人方法整合，引用 RSI-Anything 論文與官方儲存庫；本插件不包含其模型、資料或官方執行程式 |
+| 58 Pstack skills and shared resources | `cursor/plugins` Pstack, Lauren Tan. [MIT notice](pstack-MIT.txt). |
+| codex-research | `LIU-31415/codex-research`. [MIT notice](codex-research-MIT.txt). |
+| literature-review, hypothesis-generation, statistical-analysis, scientific-critical-thinking | `K-Dense-AI/scientific-agent-skills`, K-Dense Inc. [MIT notice](scientific-agent-skills-MIT.txt). |
+| rsi-anything | Independent method integration referencing the RSI-Anything paper and official repository. No official model, data or runtime is bundled. |
 
-保留上游 skill 內的 license 欄位與來源說明。打包時調整主機相容與相對路徑，未重新授權上游內容。
+This is an independent integration, not a joint official release by Pstack, the research-skill authors or the RSI paper’s authors. Upstream skill license fields and source notes remain in place. Host adaptations and relative-path changes do not relicense upstream content.
 
-本發行僅保留 codex-research 的執行技能與參考資源；不包含其歷史測試報告、執行紀錄及維護用工作流。
+The distribution retains codex-research’s execution skills and reference resources. Its historical test reports, execution logs and maintenance workflows are excluded.
