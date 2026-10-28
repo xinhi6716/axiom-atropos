@@ -1,6 +1,6 @@
 Axiom Atropos celestial ritual identity assets — 2026-10-28
 
-The severed orbital phase and art-only responsive cover compositions are original editable SVG constructions for xinhi6716. They are not traced from external logos or historical religious artwork. Original first-party geometry is distributed under this repository's MIT LICENSE. No historical authenticity, trademark clearance or endorsement is asserted.
+The severed-thread emblem and art-only responsive cover compositions are original editable SVG constructions for xinhi6716. They are not traced from external logos or historical religious artwork. Original first-party geometry is distributed under this repository's MIT LICENSE. No historical authenticity, trademark clearance or endorsement is asserted.
 
 assets/icon.png is rendered directly from assets/icon.svg. The product title remains native accessible README text; the covers do not duplicate it. The preserved workflow illustrations contain outlined DejaVu glyphs; no font binary is bundled. Their words, geometry and workflow meaning are unchanged by the palette update. Font notice follows. Upstream pstack-resources artwork, credits and licenses are unchanged and are not relabelled as Axiom artwork.
 

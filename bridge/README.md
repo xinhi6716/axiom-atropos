@@ -1,5 +1,7 @@
 # Axiom bridge
 
+[Axiom Atropos](../docs/naming-transition.md) · [English overview](../README.md) · [繁體中文總覽](../README.zh-TW.md) · [简体中文概览](../README.zh-CN.md)
+
 A dependency-free MCP stdio server that lets Claude Code drive Codex and Antigravity (agy) through typed tools instead of ad-hoc shell calls. The Claude plugin manifest registers it as `axiom-bridge`.
 
 | Tool | Backend | Use |

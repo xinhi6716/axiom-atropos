@@ -1,4 +1,6 @@
-# Updating Axiom Forge
+# Updating Axiom Atropos
+
+[Axiom Atropos](naming-transition.md) · [English overview](../README.md) · [繁體中文總覽](../README.zh-TW.md) · [简体中文概览](../README.zh-CN.md)
 
 The repository owns skills, host adapters, scripts, manifests and upstream notices. Global AGENTS.md and installed plugin caches are not inputs.
 

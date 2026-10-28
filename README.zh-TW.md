@@ -2,7 +2,7 @@
   <source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/readme-cover-dark-mobile.svg" />
   <source media="(max-width: 600px)" srcset="assets/readme-cover-mobile.svg" />
   <source media="(prefers-color-scheme: dark)" srcset="assets/readme-cover-dark.svg" />
-  <img src="assets/readme-cover.svg" width="1200" alt="Axiom Atropos. Research and engineering skills in the Moirai series." />
+  <img src="assets/readme-cover.svg" width="1200" alt="Axiom Atropos：Moirai 系列的研究與工程技能包。" />
 </picture></p>
 
 <p align="center"><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a></p>
@@ -83,7 +83,7 @@ curl -fsSL https://raw.githubusercontent.com/xinhi6716/axiom-forge/main/install.
   <source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/atropos-process-dark-mobile.svg" />
   <source media="(max-width: 600px)" srcset="assets/atropos-process-mobile.svg" />
   <source media="(prefers-color-scheme: dark)" srcset="assets/atropos-process-dark.svg" />
-  <img src="assets/atropos-process.svg" width="1200" alt="Suggested workflow: choose the relevant skill, work with explicit checks, inspect the evidence, review the result." />
+  <img src="assets/atropos-process.svg" width="1200" alt="建議流程：選擇符合任務的技能，界定範圍與交付成果，依工作流執行並保留證據，審閱結果並核對標準。" />
 </picture></p>
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/atropos-threshold-dark.svg" /><img src="assets/atropos-threshold.svg" width="1200" alt="" /></picture></p>

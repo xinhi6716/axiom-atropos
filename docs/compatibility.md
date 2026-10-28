@@ -1,8 +1,8 @@
 # Compatibility
 
-[English](../README.md) · [繁體中文](../README.zh-TW.md) · [简体中文](../README.zh-CN.md)
+[Axiom Atropos](naming-transition.md) · [English overview](../README.md) · [繁體中文總覽](../README.zh-TW.md) · [简体中文概览](../README.zh-CN.md)
 
-Axiom Forge supports five hosts. Other host selectors were removed in 1.1.0; existing installations in those applications are left untouched.
+Axiom Atropos (formerly Axiom Forge) supports five hosts. Other host selectors were removed in 1.1.0; existing installations in those applications are left untouched.
 
 | Host | Integration | Verification |
 |---|---|---|
