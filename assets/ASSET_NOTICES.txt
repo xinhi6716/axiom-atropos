@@ -1,10 +1,10 @@
-Axiom Atropos identity assets —2026-10-27
+Axiom Atropos celestial ritual identity assets — 2026-10-28
 
-The Axiom Atropos shears/thread symbol and header compositions are original editable SVG constructions for xinhi6716, within the selected Celestial Order identity. They are not traced from external logos or historical religious artwork. Original first-party geometry is distributed under this repository's MIT LICENSE. No historical authenticity, trademark clearance or endorsement is asserted.
+The severed orbital phase and art-only responsive cover compositions are original editable SVG constructions for xinhi6716. They are not traced from external logos or historical religious artwork. Original first-party geometry is distributed under this repository's MIT LICENSE. No historical authenticity, trademark clearance or endorsement is asserted.
 
-assets/icon.png is rendered directly from assets/icon.svg. The responsive header SVGs contain outlined DejaVu Serif/Sans/Sans Mono glyphs; no font binary is bundled. Font notice follows. Upstream pstack-resources artwork, credits and licenses are unchanged and are not relabelled as Axiom artwork.
+assets/icon.png is rendered directly from assets/icon.svg. The product title remains native accessible README text; the covers do not duplicate it. The preserved workflow illustrations contain outlined DejaVu glyphs; no font binary is bundled. Their words, geometry and workflow meaning are unchanged by the palette update. Font notice follows. Upstream pstack-resources artwork, credits and licenses are unchanged and are not relabelled as Axiom artwork.
 
-The repository is now axiom-atropos. This page refinement preserves plugin identifiers, host display names and command compatibility. Architectural headers, section thresholds and workflow compositions extend the same original Celestial Order vector system.
+This visual revision preserves existing installation commands, plugin identifiers, host labels, skill content, links and status wording. It does not change runtime behavior or perform a naming migration.
 
 Font source: https://dejavu-fonts.github.io/
 
