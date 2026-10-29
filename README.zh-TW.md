@@ -14,6 +14,10 @@
 **66 個研究與工程工作流**，用於你現有的 agent。選擇技能、定義檢查，再審閱證據。
 
 
+| 研究問題 | 修改程式 | 確認相容性 |
+| --- | --- | --- |
+| [Research suite](skills/research-suite/SKILL.md) | [Poteto mode](skills/poteto-mode/SKILL.md) | [主機支援](docs/compatibility.md) |
+
 <a id="install"></a>
 <a id="install-for-your-host"></a>
 <a id="選擇你的使用環境"></a>
@@ -121,3 +125,4 @@ licenses/           Upstream copyright and MIT notices
 [MIT 授權](LICENSE) · [來源與授權](licenses/README.md) · [素材聲明](assets/ASSET_NOTICES.txt)
 
 本專案獨立整合 Lauren Tan 的 Pstack、LIU-31415 的 codex-research 與 K-Dense 科研技能。Atropos 是 Axiom 旗下 Moirai 系列的技能包。
+

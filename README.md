@@ -14,6 +14,10 @@
 **66 research and engineering workflows** for your agent. Choose a skill, define its checks and review the evidence.
 
 
+| Research a question | Change a codebase | Inspect compatibility |
+| --- | --- | --- |
+| [Research suite](skills/research-suite/SKILL.md) | [Poteto mode](skills/poteto-mode/SKILL.md) | [Host support](docs/compatibility.md) |
+
 <a id="install"></a>
 <a id="install-for-your-host"></a>
 
@@ -117,3 +121,4 @@ licenses/           Upstream copyright and MIT notices
 [MIT License](LICENSE) · [Credits and licenses](licenses/README.md) · [Asset notices](assets/ASSET_NOTICES.txt)
 
 An independent integration of Lauren Tan’s Pstack, LIU-31415’s codex-research and K-Dense scientific skills. Atropos is the Moirai skill pack within Axiom.
+
