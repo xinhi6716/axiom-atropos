@@ -1,9 +1,4 @@
-<p align="center"><picture>
-  <source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/readme-cover-dark-mobile.svg" />
-  <source media="(max-width: 600px)" srcset="assets/readme-cover-mobile.svg" />
-  <source media="(prefers-color-scheme: dark)" srcset="assets/readme-cover-dark.svg" />
-  <img src="assets/readme-cover.svg" width="1200" alt="Axiom Atropos：Moirai 系列的研究与工程技能包。" />
-</picture></p>
+<p align="center"><img src="https://raw.githubusercontent.com/xinhi6716/xinhi6716/95b148368534587e5393bc9ef610b99c01ca8e92/assets/identity-v8/atropos.png" width="360" alt="Axiom Atropos — approved Moirai identity artwork"></p>
 
 <h1 align="center">Axiom Atropos</h1>
 
