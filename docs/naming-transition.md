@@ -29,6 +29,8 @@ The existing RSI material remains a research method, not a deployed self-evoluti
 
 ## Artwork and attribution
 
-The selected **Celestial Order** identity uses newly constructed vector artwork for Axiom Atropos. Its symbolic shears refer to a clear craft boundary; they do not alter skill behavior or establish measured performance. See [asset notices](../assets/ASSET_NOTICES.txt).
+The current README uses the square Atropos PNG from the canonical Axiom profile identity, pinned to its source commit. Its shears and thread are symbolic artwork; they do not alter skill behavior or establish measured performance. See [asset notices](../assets/ASSET_NOTICES.txt) for the exact source.
+
+The earlier **Celestial Order** vector identity remains in the repository as historical artwork. Its notices and existing links are retained.
 
 Upstream Pstack artwork, source pins, copyright notices and licenses are preserved. They are not rebranded as original Axiom work. The repository's [MIT license](../LICENSE) remains unchanged.

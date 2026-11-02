@@ -1,3 +1,38 @@
+CURRENT README IDENTITY — 2026-11-02
+
+The README language editions display the square atropos.png artwork from the
+public xinhi6716/xinhi6716 profile repository, pinned to commit:
+95b148368534587e5393bc9ef610b99c01ca8e92
+
+Source: https://github.com/xinhi6716/xinhi6716/blob/95b148368534587e5393bc9ef610b99c01ca8e92/assets/identity-v8/atropos.png
+Format: 1254 x 1254 PNG. Role: Moirai skill pack identity artwork.
+The image is presented directly alongside a native-text title and navigation.
+It is symbolic branding, not a workflow diagram or a performance claim.
+
+This entry records the source used by the current README. It does not assert
+a new artwork license, creator attribution or trademark clearance. Existing
+license and font notices remain unchanged.
+
+COMPACT LOGO COMPANION
+
+The native README title includes light/dark compact atropos marks from the
+public profile repository, pinned to commit:
+443d48c713f27d52656ad8ea3cb4c5bb9c7dd440
+
+Light: https://github.com/xinhi6716/xinhi6716/blob/443d48c713f27d52656ad8ea3cb4c5bb9c7dd440/assets/brand-marks/v1/atropos-icon-light.svg
+Dark: https://github.com/xinhi6716/xinhi6716/blob/443d48c713f27d52656ad8ea3cb4c5bb9c7dd440/assets/brand-marks/v1/atropos-icon-dark.svg
+Companion notices: https://github.com/xinhi6716/xinhi6716/blob/443d48c713f27d52656ad8ea3cb4c5bb9c7dd440/assets/brand-marks/v1/ASSET_NOTICES.txt
+Font notices: https://github.com/xinhi6716/xinhi6716/blob/443d48c713f27d52656ad8ea3cb4c5bb9c7dd440/assets/brand-marks/v1/FONT_LICENSE.txt
+
+These small vector companions do not replace or alter the identity-v8 portrait.
+Their provenance is documented separately from the historical SVG revisions.
+
+HISTORICAL SVG REVISIONS
+
+The dated entries below describe earlier local vector assets. Statements about
+no remote images or raster dependencies apply to those revisions, not to the
+current PNG README artwork. The historical assets and notices are retained.
+
 2026-10-28 celestial instrument refinement: the authored forged-shears mark retains its original exact silhouette and visibly severed gold thread. New asymmetric open orbital engravings frame the responsive covers without forming an enclosing seal. Shared palette: ivory #f4efe3, midnight #101a22, primary antique gold #8d6b2d (light) / #d7bd82 (dark), secondary hairline gold #b89a58 (light). Native README text carries product names and capability descriptions. No runtime, workflow, compatibility identifier, installation command, skill content, external artwork, font file or raster asset dependency is added. icon.png is rendered directly from icon.svg. Existing license and historical notices must be retained.
 The four preserved process diagrams have palette-only token substitutions to match the same ivory/midnight field. All outlined words, path geometry, dimensions, semantic order and accessibility metadata are unchanged. Light-theme instructional text uses accessible darker gold #7e5c22 where needed; decorative gold stays #8d6b2d. All outlined text has at least4.5:1 contrast against its background. Historical threshold assets are preserved and no longer inserted in the current README.
 

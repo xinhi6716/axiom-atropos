@@ -1,17 +1,20 @@
-<p align="center"><img src="https://raw.githubusercontent.com/xinhi6716/xinhi6716/95b148368534587e5393bc9ef610b99c01ca8e92/assets/identity-v8/atropos.png" width="360" alt="Axiom Atropos — approved Moirai identity artwork"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/xinhi6716/xinhi6716/95b148368534587e5393bc9ef610b99c01ca8e92/assets/identity-v8/atropos.png" width="280" alt="Axiom Atropos: shears and a severed celestial thread"></p>
 
-<h1 align="center">Axiom Atropos</h1>
+<h1 align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/xinhi6716/xinhi6716/443d48c713f27d52656ad8ea3cb4c5bb9c7dd440/assets/brand-marks/v1/atropos-icon-dark.svg"><img src="https://raw.githubusercontent.com/xinhi6716/xinhi6716/443d48c713f27d52656ad8ea3cb4c5bb9c7dd440/assets/brand-marks/v1/atropos-icon-light.svg" width="40" height="40" alt=""></picture> Axiom Atropos</h1>
 
-<p align="center"><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a></p>
+<p align="center"><strong>供现有 agent 使用的研究与工程技能。</strong></p>
 
-<p align="center"><a href="#install">安装</a> · <a href="#begin">技能</a> · <a href="#boundaries">状态</a></p>
+<p align="center"><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <strong>简体中文</strong></p>
+
+<p align="center"><a href="#install">安装</a> · <a href="#begin">选择工作流</a> · <a href="#boundaries">使用限制</a></p>
 
 **66 个研究与工程工作流**，用于你现有的 agent。选择技能、定义检查，再审阅证据。
 
-
-| 研究问题 | 修改代码 | 确认相容性 |
-| --- | --- | --- |
-| [Research suite](skills/research-suite/SKILL.md) | [Poteto mode](skills/poteto-mode/SKILL.md) | [主机支持](docs/compatibility.md) |
+| 你要做什么 | 从这里开始 |
+| --- | --- |
+| 研究一个问题 | [Research suite](skills/research-suite/SKILL.md) |
+| 修改代码 | [Poteto mode](skills/poteto-mode/SKILL.md) |
+| 确认主机支持 | [相容性与验证](docs/compatibility.md) |
 
 <a id="install"></a>
 <a id="install-for-your-host"></a>

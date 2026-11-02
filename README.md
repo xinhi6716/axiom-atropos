@@ -1,17 +1,20 @@
-<p align="center"><img src="https://raw.githubusercontent.com/xinhi6716/xinhi6716/95b148368534587e5393bc9ef610b99c01ca8e92/assets/identity-v8/atropos.png" width="360" alt="Axiom Atropos — approved Moirai identity artwork"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/xinhi6716/xinhi6716/95b148368534587e5393bc9ef610b99c01ca8e92/assets/identity-v8/atropos.png" width="280" alt="Axiom Atropos: shears and a severed celestial thread"></p>
 
-<h1 align="center">Axiom Atropos</h1>
+<h1 align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/xinhi6716/xinhi6716/443d48c713f27d52656ad8ea3cb4c5bb9c7dd440/assets/brand-marks/v1/atropos-icon-dark.svg"><img src="https://raw.githubusercontent.com/xinhi6716/xinhi6716/443d48c713f27d52656ad8ea3cb4c5bb9c7dd440/assets/brand-marks/v1/atropos-icon-light.svg" width="40" height="40" alt=""></picture> Axiom Atropos</h1>
 
-<p align="center"><a href="README.md">English</a> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a></p>
+<p align="center"><strong>Research and engineering skills for your existing agent.</strong></p>
 
-<p align="center"><a href="#install">Install</a> · <a href="#begin">Skills</a> · <a href="#boundaries">Status</a></p>
+<p align="center"><strong>English</strong> · <a href="README.zh-TW.md">繁體中文</a> · <a href="README.zh-CN.md">简体中文</a></p>
+
+<p align="center"><a href="#install">Install</a> · <a href="#begin">Choose a workflow</a> · <a href="#boundaries">Limits</a></p>
 
 **66 research and engineering workflows** for your agent. Choose a skill, define its checks and review the evidence.
 
-
-| Research a question | Change a codebase | Inspect compatibility |
-| --- | --- | --- |
-| [Research suite](skills/research-suite/SKILL.md) | [Poteto mode](skills/poteto-mode/SKILL.md) | [Host support](docs/compatibility.md) |
+| Your task | Start here |
+| --- | --- |
+| Research a question | [Research suite](skills/research-suite/SKILL.md) |
+| Change a codebase | [Poteto mode](skills/poteto-mode/SKILL.md) |
+| Check your host | [Compatibility and verification](docs/compatibility.md) |
 
 <a id="install"></a>
 <a id="install-for-your-host"></a>
