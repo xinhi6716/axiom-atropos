@@ -1,19 +1,19 @@
 {
-  "name": "axiom-forge",
-  "version": "1.2.0",
-  "description": "Evidence into insight. Insight into verified work. Research skills and Pstack in one portable agent toolkit.",
   "author": {
     "name": "xinhi6716"
   },
+  "description": "Evidence into insight. Insight into verified work. Research skills and Pstack in one portable agent toolkit.",
+  "homepage": "https://github.com/xinhi6716/axiom-atropos",
   "license": "MIT",
-  "repository": "https://github.com/xinhi6716/axiom-forge",
-  "homepage": "https://github.com/xinhi6716/axiom-forge",
   "mcpServers": {
     "axiom-bridge": {
-      "command": "python",
       "args": [
-        "${CLAUDE_PLUGIN_ROOT}/bridge/server.py"
-      ]
+        "bridge"
+      ],
+      "command": "${CLAUDE_PLUGIN_ROOT}/bin/atropos"
     }
-  }
+  },
+  "name": "axiom-forge",
+  "repository": "https://github.com/xinhi6716/axiom-atropos",
+  "version": "2.0.0-rust.1"
 }

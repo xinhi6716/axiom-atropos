@@ -1,0 +1,1 @@
+Rust base, Codex RPC, memory and orch modules are adapted from xinhi6716/axiom-chronos (MIT), commit ce53d5340f791ada7c3946279bf91f111872e24c. Process cleanup is adapted from the MIT Codex variant, commit 2bfb09811ab4773bf472a4a75a9ec69ee5d09755. Atropos preserves its original API; Chronos orchestration is not a runtime dependency.

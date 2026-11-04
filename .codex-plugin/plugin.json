@@ -1,27 +1,27 @@
 {
-  "name": "axiom-forge",
-  "version": "1.2.0",
-  "description": "Evidence into insight. Insight into verified work. Research skills and Pstack in one portable agent toolkit.",
   "author": {
     "name": "xinhi6716"
   },
-  "license": "MIT",
-  "repository": "https://github.com/xinhi6716/axiom-forge",
-  "homepage": "https://github.com/xinhi6716/axiom-forge",
-  "skills": "./skills/",
-  "requires_local_executor": true,
+  "description": "Evidence into insight. Insight into verified work. Research skills and Pstack in one portable agent toolkit.",
+  "homepage": "https://github.com/xinhi6716/axiom-atropos",
   "interface": {
-    "displayName": "Axiom Forge",
-    "shortDescription": "Evidence-driven research and verified engineering",
-    "longDescription": "66 skills: Pstack engineering workflows, five scientific research skills, RSI reasoning and a research-suite entry. Models and private instructions are not bundled.",
-    "developerName": "xinhi6716",
-    "category": "Productivity",
     "brandColor": "#FFAD47",
-    "logo": "./assets/icon.svg",
-    "logoDark": "./assets/icon.svg",
+    "category": "Productivity",
     "composerIcon": "./assets/icon.svg",
     "defaultPrompt": [
       "Use Axiom Forge to investigate this question and select only the research and engineering workflows it needs."
-    ]
-  }
+    ],
+    "developerName": "xinhi6716",
+    "displayName": "Axiom Atropos",
+    "logo": "./assets/icon.svg",
+    "logoDark": "./assets/icon.svg",
+    "longDescription": "66 skills: Pstack engineering workflows, five scientific research skills, RSI reasoning and a research-suite entry. Models and private instructions are not bundled.",
+    "shortDescription": "Evidence-driven research and verified engineering"
+  },
+  "license": "MIT",
+  "name": "axiom-forge",
+  "repository": "https://github.com/xinhi6716/axiom-atropos",
+  "requires_local_executor": true,
+  "skills": "./skills/",
+  "version": "2.0.0-rust.1"
 }

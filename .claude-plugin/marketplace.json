@@ -1,17 +1,17 @@
 {
+  "metadata": {
+    "description": "Evidence into insight. Insight into verified work. Research skills and Pstack in one portable agent toolkit."
+  },
   "name": "axiom-forge",
   "owner": {
     "name": "xinhi6716"
   },
-  "metadata": {
-    "description": "Evidence into insight. Insight into verified work. Research skills and Pstack in one portable agent toolkit."
-  },
   "plugins": [
     {
+      "description": "Evidence into insight. Insight into verified work. Research skills and Pstack in one portable agent toolkit.",
       "name": "axiom-forge",
       "source": "./",
-      "description": "Evidence into insight. Insight into verified work. Research skills and Pstack in one portable agent toolkit.",
-      "version": "1.2.0"
+      "version": "2.0.0-rust.1"
     }
   ]
 }

@@ -19,42 +19,13 @@
 <a id="install"></a>
 <a id="install-for-your-host"></a>
 
-## Installation
+## Install the Rust prerelease
 
-Requires **Python 3.10+**. Codex and Claude Code also need their own CLI.
+Download the matching Windows x86-64 or Linux x86-64 archive and SHA-256 checksum from [Releases](https://github.com/xinhi6716/axiom-atropos/releases). Verify, extract, and run `bin/atropos install --host codex` (Windows: `bin/atropos.exe`). Supported hosts: `codex`, `claude`, `deepseek`, `antigravity`, `pi`. Use `--update` when updating Claude.
 
-**Windows · PowerShell**
+The native core needs no Python, Node or Bun. Codex/Claude registration needs the host CLI. Plugin identity remains `axiom-forge`. Installation uses a versioned local marketplace or managed skill directory and preserves user edits. Add the extracted `bin` directory to PATH for skill helpers.
 
-```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/xinhi6716/axiom-forge/main/install.ps1))) -Agent codex
-```
-
-**macOS / Linux**
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/xinhi6716/axiom-forge/main/install.sh | sh -s -- --host codex
-```
-
-The install commands and plugin IDs still use **`axiom-forge`** for compatibility. An installed host may show **Axiom Forge**; no reinstall or cache migration is needed for the name change. [Naming details](docs/naming-transition.md).
-
-These commands download and execute an installer from `main`. Inspect the [shell](install.sh), [PowerShell](install.ps1) and [Python adapter](scripts/install.py) before running them.
-
-<details>
-<summary><strong>Choose a host or update</strong></summary>
-
-Replace `codex` with your host selector:
-
-| Host | Selector | Integration |
-|---|---|---|
-| Codex | `codex` | Native plugin |
-| Claude Code | `claude` | Native plugin |
-| DeepSeek Harness | `deepseek` | Skills directory |
-| Antigravity | `antigravity` | Skills directory |
-| Pi | `pi` | Skills directory |
-
-To update, repeat the command with `-Update` on Windows or `--update` on macOS/Linux. Restart or reload the host afterward. [Native plugin commands and compatibility](docs/compatibility.md).
-
-</details>
+Source build: `cargo build --release --locked`. [Runtime commands, migration boundary and verification](docs/rust-runtime.md).
 
 <a id="begin"></a>
 <a id="what-are-you-working-on"></a>
@@ -82,7 +53,7 @@ Load the skills you need, rather than all 66. Individual research skills can als
   <img src="assets/atropos-process.svg" width="1200" alt="Suggested workflow: choose the relevant skill, work with explicit checks, inspect the evidence, review the result." />
 </picture></p>
 
-The diagram is a usage guide, not an enforced runtime guarantee. The existing [bridge](bridge/README.md) and [agents](agents/) support coordinated work in compatible hosts; the bridge needs Python 3.11+ and its backend CLIs. Consult its requirements before use.
+[Native bridge](bridge/README.md) and [agents](agents/) support compatible hosts. The Rust core needs only its backend CLIs. Optional upstream scientific, watcher and statechart helpers retain Python / Node / Java requirements; see the [migration boundary](docs/rust-runtime.md).
 
 </details>
 
@@ -104,9 +75,9 @@ The diagram is a usage guide, not an enforced runtime guarantee. The existing [b
 ```text
 skills/             66 reusable workflows
 pstack-resources/   Shared Pstack references and host mappings
-bridge/             Existing tool bridge and tests
+src/                Native Rust CLI, bridge, memory and orchestration
 docs/               Compatibility and maintenance
-scripts/            Installer, validation and packaging
+tests/              Native integration tests and compatibility oracles
 licenses/           Upstream copyright and MIT notices
 ```
 

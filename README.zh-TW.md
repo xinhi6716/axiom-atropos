@@ -20,42 +20,13 @@
 <a id="install-for-your-host"></a>
 <a id="選擇你的使用環境"></a>
 
-## 安裝
+## 安裝 Rust 預發行版
 
-需要 **Python 3.10+**；Codex 與 Claude Code 另需各自 CLI。
+從[版本下載](https://github.com/xinhi6716/axiom-atropos/releases)取得 Windows x86-64 或 Linux x86-64 套件及 SHA-256 檢查碼。驗證、解壓縮後執行 `bin/atropos install --host codex`（Windows 使用 `bin/atropos.exe`）。支援 `codex`、`claude`、`deepseek`、`antigravity`、`pi`；更新 Claude 時加 `--update`。
 
-**Windows · PowerShell**
+原生核心不需要 Python、Node 或 Bun；Codex／Claude 安裝仍需各自主機 CLI。插件識別保留 `axiom-forge`。安裝使用版本化本機 marketplace 或受管理技能目錄，保留使用者修改。請將解壓後的 `bin` 加入 PATH，以使用技能中的原生輔助指令。
 
-```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/xinhi6716/axiom-forge/main/install.ps1))) -Agent codex
-```
-
-**macOS / Linux**
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/xinhi6716/axiom-forge/main/install.sh | sh -s -- --host codex
-```
-
-安裝指令與插件識別碼保留 **`axiom-forge`**，以維持相容性。已安裝的主機仍可能顯示 **Axiom Forge**；名稱調整不需要重裝或搬移快取。詳見[名稱說明](docs/naming-transition.md)。
-
-這些指令會下載並執行 `main` 上的安裝程式。執行前請閱讀 [Shell](install.sh)、[PowerShell](install.ps1) 與 [Python 轉接程式](scripts/install.py)。
-
-<details>
-<summary><strong>選擇主機與更新</strong></summary>
-
-將 `codex` 換成你使用的主機參數：
-
-| 主機 | 參數 | 整合方式 |
-|---|---|---|
-| Codex | `codex` | 原生插件 |
-| Claude Code | `claude` | 原生插件 |
-| DeepSeek Harness | `deepseek` | 技能目錄 |
-| Antigravity | `antigravity` | 技能目錄 |
-| Pi | `pi` | 技能目錄 |
-
-更新時重跑同一指令，Windows 加 `-Update`，macOS/Linux 加 `--update`，再重啟或重新載入主機。[原生插件指令與相容性](docs/compatibility.md)。
-
-</details>
+從原始碼建置：`cargo build --release --locked`。[完整指令、移植範圍與驗證方式](docs/rust-runtime.md)。
 
 <a id="begin"></a>
 <a id="what-are-you-working-on"></a>
@@ -84,7 +55,7 @@ curl -fsSL https://raw.githubusercontent.com/xinhi6716/axiom-forge/main/install.
   <img src="assets/atropos-process.svg" width="1200" alt="建議流程：選擇符合任務的技能，界定範圍與交付成果，依工作流執行並保留證據，審閱結果並核對標準。" />
 </picture></p>
 
-圖中是使用指南，不是執行環境強制保證。現有 [bridge](bridge/README.md) 與 [agents](agents/) 在相容主機中支援協作，bridge 需要 Python 3.11+ 與相應後端 CLI，使用前請查看各自需求。
+[Native bridge](bridge/README.md) and [agents](agents/) support compatible hosts. The Rust core needs only its backend CLIs. Optional upstream scientific, watcher and statechart helpers retain Python / Node / Java requirements; see the [migration boundary](docs/rust-runtime.md).
 
 </details>
 
@@ -108,9 +79,9 @@ curl -fsSL https://raw.githubusercontent.com/xinhi6716/axiom-forge/main/install.
 ```text
 skills/             66 reusable workflows
 pstack-resources/   Shared Pstack references and host mappings
-bridge/             Existing tool bridge and tests
+src/                Native Rust CLI, bridge, memory and orchestration
 docs/               Compatibility and maintenance
-scripts/            Installer, validation and packaging
+tests/              Native integration tests and compatibility oracles
 licenses/           Upstream copyright and MIT notices
 ```
 

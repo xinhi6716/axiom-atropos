@@ -1,0 +1,257 @@
+[
+  {
+    "name": "codex_run",
+    "description": "Run one Codex turn in a fresh ephemeral thread and return a structured report. Write `brief` per bridge/DISPATCH.md (GOAL, SCOPE, VERIFY): the worker sees nothing else. Use role terra for modular units and role sol for integration. Status is completed, failed, interrupted, timeout or bridge_error; anything but completed carries `error`.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "brief": {
+          "type": "string",
+          "description": "Full worker brief; sent as the only user message."
+        },
+        "cwd": {
+          "type": "string",
+          "description": "Absolute working directory, ideally the unit's own worktree."
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "terra",
+            "sol"
+          ],
+          "description": "Resolved to a model this Codex account lists; the report names it."
+        },
+        "model": {
+          "type": "string",
+          "description": "Explicit model id; overrides role."
+        },
+        "sandbox": {
+          "type": "string",
+          "enum": [
+            "read-only",
+            "workspace-write"
+          ],
+          "default": "workspace-write"
+        },
+        "effort": {
+          "type": "string",
+          "description": "Reasoning effort advertised by the model, e.g. low, medium, high."
+        },
+        "developer_instructions": {
+          "type": "string",
+          "description": "Role contract layered over the user's Codex AGENTS.md."
+        },
+        "output_schema": {
+          "type": "object",
+          "description": "JSON Schema for the final message; parsed into structured_output."
+        },
+        "timeout_s": {
+          "type": "integer",
+          "minimum": 10,
+          "default": 1800
+        },
+        "lean": {
+          "type": "boolean",
+          "default": true,
+          "description": "For this thread only, disable every Codex plugin, configured MCP server, the apps connector, goals, the skills catalog, the personality section and (unless web_search) the web search tool."
+        },
+        "web_search": {
+          "type": "boolean",
+          "default": false,
+          "description": "Keep the web search tool in lean mode; costs ~2.5k input tokens per call."
+        },
+        "keep_plugins": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Plugin ids such as name@marketplace that stay enabled in lean mode."
+        }
+      },
+      "required": [
+        "brief",
+        "cwd"
+      ]
+    }
+  },
+  {
+    "name": "gemini_preview",
+    "description": "Have a Gemini model (through Antigravity, agy) rewrite worker reports into plain language for the user: what was done, how it turned out, what the user must decide. Put the reports in `prompt`. Without `cwd` it runs in an empty directory, so there is nothing for it to change. Status is completed, failed, timeout or bridge_error; an empty reply is failed with kind empty_response.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "prompt": {
+          "type": "string"
+        },
+        "cwd": {
+          "type": "string",
+          "description": "Absolute directory agy may read; omit to run in an empty directory."
+        },
+        "model": {
+          "type": "string",
+          "default": "gemini-4-argon-medium"
+        },
+        "json_schema": {
+          "type": "object",
+          "description": "Optional JSON Schema; result returned as structured_output."
+        },
+        "timeout_s": {
+          "type": "integer",
+          "minimum": 10,
+          "default": 600
+        }
+      },
+      "required": [
+        "prompt"
+      ]
+    }
+  },
+  {
+    "name": "orch",
+    "description": "Run Pstack's orch bookkeeping CLI (units, inbox, ledger, gates, standing orders, status) on the store for `project`. The store lives in the plugin data directory and survives plugin updates; its path is returned as `store`.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "project": {
+          "type": "string",
+          "description": "Lowercase slug naming the program, e.g. todo-stats."
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "orch arguments, e.g. [\"unit\", \"add\", \"u1\", \"--track\", \"build\"]."
+        }
+      },
+      "required": [
+        "project",
+        "args"
+      ]
+    }
+  },
+  {
+    "name": "memory_record",
+    "description": "Store one verified unit as long-run memory: what it built, its interface, and what a later worker reusing it must know. Files are hashed so later searches can flag the entry stale once they change.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "project": {
+          "type": "string",
+          "description": "Program slug, the same one orch uses."
+        },
+        "project_dir": {
+          "type": "string",
+          "description": "Absolute project directory; files are relative to it."
+        },
+        "unit": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string",
+          "description": "The module, function or feature, as a later brief would name it."
+        },
+        "summary": {
+          "type": "string",
+          "description": "One or two lines: what it does and its interface."
+        },
+        "body": {
+          "type": "string",
+          "description": "What a reuser needs: signatures, behaviour decisions, verify command, pitfalls met."
+        },
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "wish": {
+          "type": "string",
+          "description": "The wish verbatim, in the user's words; indexed so searches in their language find the entry."
+        }
+      },
+      "required": [
+        "project",
+        "project_dir",
+        "unit",
+        "title",
+        "summary",
+        "body",
+        "wish"
+      ]
+    }
+  },
+  {
+    "name": "memory_search",
+    "description": "Find earlier units related to `query` (English words and Chinese both match). Returns titles and summaries only, with `stale` true when a recorded file has changed since; fetch a body with memory_get.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "project": {
+          "type": "string",
+          "description": "Limit to one program; omit to search every project."
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20,
+          "default": 5
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "name": "memory_get",
+    "description": "Return one memory entry in full, with its files and whether it is stale.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "name": "memory_digest",
+    "description": "Read a project's short history of wishes and outcomes, one line each; pass `add` to append a line first.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "project": {
+          "type": "string"
+        },
+        "add": {
+          "type": "string",
+          "description": "One line: the wish, the outcome, memory ids."
+        }
+      },
+      "required": [
+        "project"
+      ]
+    }
+  },
+  {
+    "name": "bridge_status",
+    "description": "Report Codex and agy executable versions, native orchestrator runtime, Java/TLC configuration and Codex app-server state.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    }
+  }
+]
