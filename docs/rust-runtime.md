@@ -1,6 +1,6 @@
 # Rust runtime
 
-`atropos` is the native execution core for Axiom Atropos. Plugin identity stays `axiom-forge`, preserving existing skill references. This prerelease targets Windows x86-64 (MSVC) and Linux x86-64 (glibc), with all 66 skills and bundled SQLite.
+`atropos` is the native execution core for Axiom Atropos. Plugin identity stays `axiom-forge`, preserving existing skill references. This prerelease targets Windows x86-64 (MSVC) and Linux x86-64 (glibc, built on Ubuntu 22.04), with all 66 skills and bundled SQLite.
 
 ## Install
 
