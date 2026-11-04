@@ -134,6 +134,15 @@ pub fn skills(source: &Path, base: &Path) -> Res<Value> {
     }
     Ok(json!({"status":"completed","skills":bundles.len()-1,"destination":base}))
 }
+fn host_command(cmd: &[String], args: &[String]) -> Res<String> {
+    let mut c = crate::base::proc::command(cmd);
+    c.args(args);
+    let o = crate::process::capture(&mut c, None, std::time::Duration::from_secs(120))?;
+    if o.exit_code != 0 {
+        return Err(io(format!("{}{}", o.stdout, o.stderr)));
+    }
+    Ok(o.stdout)
+}
 pub fn run(args: &[String]) -> Res<Value> {
     let mut i = 0;
     while i < args.len() {
@@ -238,14 +247,86 @@ pub fn run(args: &[String]) -> Res<Value> {
                 "user".into(),
             ]
         });
-        for args in calls {
-            let mut c = crate::base::proc::command(&cmd);
-            c.args(args);
-            let o = crate::process::capture(&mut c, None, std::time::Duration::from_secs(120))?;
-            if o.exit_code != 0 {
-                return Err(io(format!("{host}: {}{}", o.stdout, o.stderr)));
+        let previous = if host == "codex" && args.iter().any(|s| s == "--update") {
+            let listed = host_command(
+                &cmd,
+                &[
+                    "plugin".into(),
+                    "marketplace".into(),
+                    "list".into(),
+                    "--json".into(),
+                ],
+            )?;
+            let listed: Value = serde_json::from_str(&listed).map_err(io)?;
+            let rows = listed["marketplaces"]
+                .as_array()
+                .ok_or_else(|| io("invalid marketplace list"))?;
+            match rows.iter().find(|v| v["name"] == "axiom-forge") {
+                Some(row) => {
+                    let root = PathBuf::from(
+                        row["root"]
+                            .as_str()
+                            .ok_or_else(|| io("missing previous marketplace root"))?,
+                    );
+                    if !root.is_dir() {
+                        return Err(io(
+                            "previous marketplace root is unavailable; cannot recover an update",
+                        ));
+                    }
+                    if fs::canonicalize(&root).map_err(io)?
+                        != fs::canonicalize(&versioned).map_err(io)?
+                    {
+                        Some(root)
+                    } else {
+                        None
+                    }
+                }
+                None => None,
             }
+        } else {
+            None
+        };
+        let remove = vec![
+            "plugin".into(),
+            "marketplace".into(),
+            "remove".into(),
+            "axiom-forge".into(),
+        ];
+        if previous.is_some() {
+            host_command(&cmd, &remove)?;
         }
+        let result = (|| -> Res<()> {
+            for args in calls {
+                host_command(&cmd, &args)?;
+            }
+            Ok(())
+        })();
+        if let Err(error) = result {
+            if let Some(root) = previous {
+                let _ = host_command(&cmd, &remove);
+                let restored = host_command(
+                    &cmd,
+                    &[
+                        "plugin".into(),
+                        "marketplace".into(),
+                        "add".into(),
+                        root.to_string_lossy().into_owned(),
+                    ],
+                );
+                return Err(io(format!(
+                    "{host}: {error}; previous local marketplace {}: {}",
+                    root.display(),
+                    match restored {
+                        Ok(_) => "restored as a local snapshot".into(),
+                        Err(e) => format!("restore failed: {e}"),
+                    }
+                )));
+            }
+            return Err(io(format!(
+                "{host}: {error}; when replacing an existing source, use --update"
+            )));
+        }
+
         Ok(
             json!({"status":"completed","host":host,"source":versioned,"version":env!("CARGO_PKG_VERSION")}),
         )

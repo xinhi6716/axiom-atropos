@@ -35,7 +35,7 @@ pub fn run(args: &[String], context: &Context) -> CommandOutput {
             args[0]
         ));
     }
-    if matches!(args[0].as_str(), "memory" | "orch") {
+    if args[0] == "memory" {
         if let Err(e) = context.data_root() {
             return CommandOutput::error(1, format!("{e}\n"));
         }
@@ -48,7 +48,6 @@ pub fn run(args: &[String], context: &Context) -> CommandOutput {
     }
     if args[0] == "orch" {
         let mut a = args[1..].to_vec();
-        let root = context.data_root().unwrap();
         for flag in ["--store", "--project"] {
             if let Some(i) = a.iter().position(|v| v == flag) {
                 if a.get(i + 1).is_none_or(|s| s.starts_with("--")) {
@@ -59,9 +58,18 @@ pub fn run(args: &[String], context: &Context) -> CommandOutput {
         let path = if let Some(p) = arg(&a, "--store") {
             std::path::PathBuf::from(p)
         } else {
-            match crate::orch::store_for(&root, arg(&a, "--project").unwrap_or("default")) {
-                Ok(p) => p,
-                Err(e) => return CommandOutput::error(1, e.to_string()),
+            let configured = std::env::var_os("ORCH_STORE").filter(|v| !v.is_empty());
+            if let Some(p) = configured.filter(|_| arg(&a, "--project").is_none()) {
+                std::path::PathBuf::from(p)
+            } else {
+                let root = match context.data_root() {
+                    Ok(p) => p,
+                    Err(e) => return CommandOutput::error(1, format!("{e}\n")),
+                };
+                match crate::orch::store_for(&root, arg(&a, "--project").unwrap_or("default")) {
+                    Ok(p) => p,
+                    Err(e) => return CommandOutput::error(1, e.to_string()),
+                }
             }
         };
         for flag in ["--store", "--project"] {

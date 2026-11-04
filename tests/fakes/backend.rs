@@ -40,6 +40,19 @@ fn main() {
             json!(args[1..])
         )
         .unwrap();
+        let previous = std::env::var("FAKE_PREVIOUS_ROOT").ok();
+        if args.get(3).is_some_and(|a| a == "list") {
+            send(
+                json!({"marketplaces":previous.as_ref().map(|root|vec![json!({"name":"axiom-forge","root":root})]).unwrap_or_default()}),
+            );
+        }
+        if args.get(3).is_some_and(|a| a == "add")
+            && std::env::var_os("FAKE_FAIL_NEW_SOURCE").is_some()
+            && args.get(4) != previous.as_ref()
+        {
+            eprintln!("scripted registration failure");
+            std::process::exit(1);
+        }
         return;
     }
     if args.first().is_some_and(|s| s == "agy") {

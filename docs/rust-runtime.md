@@ -6,7 +6,7 @@
 
 Download the matching archive and `.sha256` from the GitHub release, verify the checksum, extract it, and run `bin/atropos install --host codex` (Windows: `bin/atropos.exe`). Hosts: `codex`, `claude`, `deepseek`, `antigravity`, `pi`. `--list-hosts` lists aliases. Add the extracted `bin` directory to PATH for native skill helpers.
 
-Codex/Claude use their official plugin CLI and a local marketplace at `~/.local/share/axiom-atropos/<version>`, including the runtime. `--update` selects Claude's update command. Existing versioned content with different hashes is preserved. No running plugin cache is edited.
+Codex/Claude use their official plugin CLI and a local marketplace at `~/.local/share/axiom-atropos/<version>`, including the runtime. `--update` selects Claude's update command. For Codex migration from an existing marketplace, it switches the named source through the official CLI. If registration fails, it restores the previous marketplace root as a local snapshot; restoring a former remote tracking source may then require adding that Git source again. Existing versioned content with different hashes is preserved. No running plugin cache is edited.
 
 Directory hosts receive skills and `pstack-resources` in `.dsh`, `.gemini/antigravity`, or `.agents`; `DSH_HOME` overrides `.dsh`. Ownership records identify installed files. Updates refuse unowned or locally edited bundles, acquire a lock, and roll back failed file moves. If rollback fails, backups remain at the reported path. Managed paths cannot be symlinks or Windows reparse points.
 
@@ -28,14 +28,14 @@ atropos memory get '{"id":1}'
 atropos memory digest '{"project":"example","add":"A durable finding"}'
 atropos orch --project example init
 atropos orch --project example unit add core --track rust
-atropos orch --project example unit set core --branch feature/core
+atropos orch --project example unit set core --state pending --branch feature/core
 atropos orch --project example status --json
 atropos check-plan PLAN.md
 atropos work-log LOG.tsv PHASE DECISION WHY EVIDENCE RESULT
 atropos worktree-audit
 ```
 
-Use the shell's JSON quoting conventions. Storage resolves `AXIOM_DATA_HOME`, then `CLAUDE_PLUGIN_DATA`; memory/orch fail if neither is set. `orch --store DIR` chooses an explicit store, `--project` defaults to `default`. Existing SQLite entries, hashes, digests, orchestrator TSV and JSON remain readable. Native `worktree-audit` reports paths, HEAD, branches and changed files; the richer upstream shell audit remains separate.
+Use the shell's JSON quoting conventions. Storage resolves `AXIOM_DATA_HOME`, then `CLAUDE_PLUGIN_DATA`; memory/project-based orch fail if neither is set. `orch --store DIR` or `ORCH_STORE` chooses an explicit store without requiring a data-home variable, `--project` defaults to `default`. Existing SQLite entries, hashes, digests, orchestrator TSV and JSON remain readable. Native `worktree-audit` reports paths, HEAD, branches and changed files; the richer upstream shell audit remains separate.
 
 ## MCP and backends
 

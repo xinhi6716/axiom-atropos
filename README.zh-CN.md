@@ -22,7 +22,7 @@
 
 ## 安装 Rust 预发行版
 
-从[版本下载](https://github.com/xinhi6716/axiom-atropos/releases)取得 Windows x86-64 或 Linux x86-64 软件包及 SHA-256 校验码。校验、解压后执行 `bin/atropos install --host codex`（Windows 使用 `bin/atropos.exe`）。支持 `codex`、`claude`、`deepseek`、`antigravity`、`pi`；更新 Claude 时加 `--update`。
+从[版本下载](https://github.com/xinhi6716/axiom-atropos/releases)取得 Windows x86-64 或 Linux x86-64 软件包及 SHA-256 校验码。校验、解压后执行 `bin/atropos install --host codex`（Windows 使用 `bin/atropos.exe`）。支持 `codex`、`claude`、`deepseek`、`antigravity`、`pi`；更新或迁移已有安装时加 `--update`。
 
 原生核心不需要 Python、Node 或 Bun；Codex／Claude 安装仍需各自主机 CLI。插件标识保留 `axiom-forge`。安装使用版本化本地 marketplace 或受管理技能目录，保留用户修改。请将解压后的 `bin` 加入 PATH，以使用技能中的原生辅助命令。
 

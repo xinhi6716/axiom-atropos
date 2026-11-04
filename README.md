@@ -21,7 +21,7 @@
 
 ## Install the Rust prerelease
 
-Download the matching Windows x86-64 or Linux x86-64 archive and SHA-256 checksum from [Releases](https://github.com/xinhi6716/axiom-atropos/releases). Verify, extract, and run `bin/atropos install --host codex` (Windows: `bin/atropos.exe`). Supported hosts: `codex`, `claude`, `deepseek`, `antigravity`, `pi`. Use `--update` when updating Claude.
+Download the matching Windows x86-64 or Linux x86-64 archive and SHA-256 checksum from [Releases](https://github.com/xinhi6716/axiom-atropos/releases). Verify, extract, and run `bin/atropos install --host codex` (Windows: `bin/atropos.exe`). Supported hosts: `codex`, `claude`, `deepseek`, `antigravity`, `pi`. Use `--update` when updating or migrating an existing installation.
 
 The native core needs no Python, Node or Bun. Codex/Claude registration needs the host CLI. Plugin identity remains `axiom-forge`. Installation uses a versioned local marketplace or managed skill directory and preserves user edits. Add the extracted `bin` directory to PATH for skill helpers.
 

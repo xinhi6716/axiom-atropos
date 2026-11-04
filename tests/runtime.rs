@@ -604,3 +604,60 @@ fn plan_checker_accepts_upstream_fixture_and_markdown_fences() {
         );
     }
 }
+
+#[test]
+fn host_update_restores_previous_marketplace_when_new_registration_fails() {
+    let d = tempfile::tempdir().unwrap();
+    let old = d.path().join("old-source");
+    fs::create_dir_all(&old).unwrap();
+    let log = d.path().join("calls.jsonl");
+    let out = Command::new(EXE)
+        .args(["install", "--host", "codex", "--update"])
+        .env("HOME", d.path())
+        .env("USERPROFILE", d.path())
+        .env("AXIOM_CODEX_CMD", json!([FAKE, "host"]).to_string())
+        .env("FAKE_HOST_LOG", &log)
+        .env("FAKE_PREVIOUS_ROOT", &old)
+        .env("FAKE_FAIL_NEW_SOURCE", "1")
+        .output()
+        .unwrap();
+    assert!(!out.status.success());
+    assert!(String::from_utf8_lossy(&out.stderr).contains("restored as a local snapshot"));
+    let calls: Vec<Value> = fs::read_to_string(log)
+        .unwrap()
+        .lines()
+        .map(|l| serde_json::from_str(l).unwrap())
+        .collect();
+    assert_eq!(
+        calls[1],
+        json!(["plugin", "marketplace", "remove", "axiom-forge"])
+    );
+    assert_eq!(
+        calls.last().unwrap(),
+        &json!(["plugin", "marketplace", "add", old])
+    );
+}
+
+#[test]
+fn explicit_store_does_not_require_data_home() {
+    let d = tempfile::tempdir().unwrap();
+    let out = Command::new(EXE)
+        .args(["orch", "--store"])
+        .arg(d.path())
+        .arg("init")
+        .env_remove("AXIOM_DATA_HOME")
+        .env_remove("CLAUDE_PLUGIN_DATA")
+        .output()
+        .unwrap();
+    assert!(
+        out.status.success(),
+        "{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    assert!(d.path().join("units.tsv").is_file());
+    let missing = Command::new(EXE)
+        .args(["orch", "--store"])
+        .output()
+        .unwrap();
+    assert_eq!(missing.status.code(), Some(2));
+}

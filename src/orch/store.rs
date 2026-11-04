@@ -764,7 +764,6 @@ pub fn run(store: &Path, args: &[String], json: bool, force: bool) -> Output {
             }
             ("unit", "add") => {
                 let id = required(arg(args, 2)?, "unit id")?;
-                base::require_slug("unit id", &id)?;
                 let track = required(
                     option(args, "--track")?.ok_or_else(|| fail("--track is required"))?,
                     "track",
