@@ -49,10 +49,10 @@
 <summary><strong>流程与进阶工具</strong></summary>
 
 <p align="center"><picture>
-  <source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/atropos-process-dark-mobile.svg" />
-  <source media="(max-width: 600px)" srcset="assets/atropos-process-mobile.svg" />
-  <source media="(prefers-color-scheme: dark)" srcset="assets/atropos-process-dark.svg" />
-  <img src="assets/atropos-process.svg" width="1200" alt="建议流程：选择符合任务的技能，界定范围与交付成果，依工作流执行并保留证据，审阅结果并核对标准。" />
+  <source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset="assets/atropos-process-zh-CN-dark-mobile.svg" />
+  <source media="(max-width: 600px)" srcset="assets/atropos-process-zh-CN-mobile.svg" />
+  <source media="(prefers-color-scheme: dark)" srcset="assets/atropos-process-zh-CN-dark.svg" />
+  <img src="assets/atropos-process-zh-CN.svg" width="1200" alt="建议流程：选择符合任务的技能，界定范围与交付成果，依工作流执行并保留证据，审阅结果并核对标准。" />
 </picture></p>
 
 [Native bridge](bridge/README.md) and [agents](agents/) support compatible hosts. The Rust core needs only its backend CLIs. Optional upstream scientific, watcher and statechart helpers retain Python / Node / Java requirements; see the [migration boundary](docs/rust-runtime.md).

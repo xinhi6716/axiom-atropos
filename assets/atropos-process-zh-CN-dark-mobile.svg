@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="728" viewBox="0 0 360 728" role="img" aria-labelledby="title desc" xml:lang="zh-CN">
+<title id="title">Axiom Atropos: 选择技能，让证据引路</title>
+<desc id="desc">技能包的建议用法：选择符合任务的技能，界定范围与交付成果，依工作流执行并保留证据，最后审阅结果并核对标准。这不是另一套自动执行引擎。</desc>
+<rect width="360" height="728" fill="#101a22"/>
+<path d="M24 1H336M24 727H336" stroke="#586052"/>
+<text x="20" y="32" font-size="15" fill="#d7bd82" font-family="'Courier New', monospace" text-anchor="start">AXIOM / ATROPOS</text>
+<text x="20" y="70" font-size="28" fill="#f4efe3" font-family="Georgia, 'Noto Serif CJK TC', 'Times New Roman', serif" text-anchor="start">选择技能，</text>
+<text x="20" y="103" font-size="28" fill="#f4efe3" font-family="Georgia, 'Noto Serif CJK TC', 'Times New Roman', serif" text-anchor="start">让证据引路</text>
+<g data-step="1">
+<rect x="20" y="126" width="320" height="116" rx="6" fill="#172530" stroke="#586052"/>
+<circle cx="47" cy="157" r="17" fill="#101a22" stroke="#b89a58"/>
+<text x="47" y="163" font-size="16" fill="#d7bd82" font-family="'Courier New', monospace" text-anchor="middle">01</text>
+<text x="76" y="164" font-size="25" fill="#f4efe3" font-family="Georgia, 'Noto Serif CJK TC', 'Times New Roman', serif" text-anchor="start">选择</text>
+<text x="36" y="198" font-size="20" fill="#c9c4b6" font-family="Arial, 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif" text-anchor="start">寻找适合的技能</text>
+<text x="36" y="225" font-size="20" fill="#c9c4b6" font-family="Arial, 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif" text-anchor="start">对应当前任务</text>
+</g>
+<path d="M47 242v12m-4-4 4 4 4-4" fill="none" stroke="#b89a58" stroke-width="1.5"/>
+<g data-step="2">
+<rect x="20" y="258" width="320" height="116" rx="6" fill="#172530" stroke="#586052"/>
+<circle cx="47" cy="289" r="17" fill="#101a22" stroke="#b89a58"/>
+<text x="47" y="295" font-size="16" fill="#d7bd82" font-family="'Courier New', monospace" text-anchor="middle">02</text>
+<text x="76" y="296" font-size="25" fill="#f4efe3" font-family="Georgia, 'Noto Serif CJK TC', 'Times New Roman', serif" text-anchor="start">界定</text>
+<text x="36" y="330" font-size="20" fill="#c9c4b6" font-family="Arial, 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif" text-anchor="start">设定工作范围</text>
+<text x="36" y="357" font-size="20" fill="#c9c4b6" font-family="Arial, 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif" text-anchor="start">明确列出交付成果</text>
+</g>
+<path d="M47 374v12m-4-4 4 4 4-4" fill="none" stroke="#b89a58" stroke-width="1.5"/>
+<g data-step="3">
+<rect x="20" y="390" width="320" height="116" rx="6" fill="#172530" stroke="#586052"/>
+<circle cx="47" cy="421" r="17" fill="#101a22" stroke="#b89a58"/>
+<text x="47" y="427" font-size="16" fill="#d7bd82" font-family="'Courier New', monospace" text-anchor="middle">03</text>
+<text x="76" y="428" font-size="25" fill="#f4efe3" font-family="Georgia, 'Noto Serif CJK TC', 'Times New Roman', serif" text-anchor="start">执行</text>
+<text x="36" y="462" font-size="20" fill="#c9c4b6" font-family="Arial, 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif" text-anchor="start">按照工作流进行</text>
+<text x="36" y="489" font-size="20" fill="#c9c4b6" font-family="Arial, 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif" text-anchor="start">保留有用证据</text>
+</g>
+<path d="M47 506v12m-4-4 4 4 4-4" fill="none" stroke="#b89a58" stroke-width="1.5"/>
+<g data-step="4">
+<rect x="20" y="522" width="320" height="116" rx="6" fill="#172530" stroke="#586052"/>
+<circle cx="47" cy="553" r="17" fill="#101a22" stroke="#b89a58"/>
+<text x="47" y="559" font-size="16" fill="#d7bd82" font-family="'Courier New', monospace" text-anchor="middle">04</text>
+<text x="76" y="560" font-size="25" fill="#f4efe3" font-family="Georgia, 'Noto Serif CJK TC', 'Times New Roman', serif" text-anchor="start">审阅</text>
+<text x="36" y="594" font-size="20" fill="#c9c4b6" font-family="Arial, 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif" text-anchor="start">检查执行结果</text>
+<text x="36" y="621" font-size="20" fill="#c9c4b6" font-family="Arial, 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif" text-anchor="start">逐项核对标准</text>
+</g>
+<text x="20" y="687" font-size="18" fill="#d7bd82" font-family="Arial, 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif" text-anchor="start">给现有 agent 的技能包，</text>
+<text x="20" y="712" font-size="18" fill="#d7bd82" font-family="Arial, 'Noto Sans CJK TC', 'Microsoft JhengHei', sans-serif" text-anchor="start">不是另一套执行引擎。</text>
+</svg>
